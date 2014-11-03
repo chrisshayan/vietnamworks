@@ -1,4 +1,21 @@
 <?php
+/**
+ * Request:
+ *      GET https://api.vietnamworks.com/users/status/?email=email_to_check@test.com
+ *      headers:
+ *          CONSUMER-ID:your_consumer_id
+ *          CONTENT-MD5:your_api_key
+ *
+ * Response on error:
+ *      HTTP/1.1 400 Bad Request
+ *      Content-Type: application/json
+ *      body: {"message": "explain about happened error"}
+ *
+ * Response on success:
+ *      HTTP/1.1 200 OK
+ *      Content-Type: application/json
+ *      body: {"accountStatus": "status_code"}  with status_code in NEW, ACTIVATED, NON_ACTIVATED, BANNED
+ */
 
 $consumerId = 'your_consumer_id';
 $apiKey = 'your_api_key';
