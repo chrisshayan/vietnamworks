@@ -19,7 +19,6 @@
  *      body: {"accountStatus": "status_code"}  with status_code in NEW, ACTIVATED, NON_ACTIVATED, BANNED
  */
 
-$consumerId = 'your_consumer_id';
 $apiKey = 'your_api_key';
 $emailToCheck = 'test@email.com';
 
