@@ -1,7 +1,10 @@
 <?php
 /**
+ * Staging API server:      https://api.staging.vietnamworks.com
+ * Production API server:   https://api.vietnamworks.com
+ *
  * Request:
- *      GET https://api.vietnamworks.com/users/status/?email=email_to_check@test.com
+ *      GET https://{api_server_domain}/users/status/?email=email_to_check@test.com
  *      headers:
  *          CONTENT-MD5:your_api_key
  *
@@ -20,7 +23,7 @@ $consumerId = 'your_consumer_id';
 $apiKey = 'your_api_key';
 $emailToCheck = 'test@email.com';
 
-$apiUrl = 'https://api.vietnamworks.com/users/status/?email='.urlencode($emailToCheck);
+$apiUrl = 'https://api.staging.vietnamworks.com/users/status/?email='.urlencode($emailToCheck);
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $apiUrl);
