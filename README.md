@@ -24,6 +24,9 @@ To help people achieve their dreams. That's why we call our employees "Dream-Mak
 <p>
 Deliver a superior solution for recruiting high quality professionals. We guarantee results, offer fast, flexible, professional service, and we do it with love for our customers and job seekers!
 </p>
+<br/>
+<p>Our success depends on our people. Our Dream-Makers have the following characteristics.</p>
+<img src="http://images.vietnamworks.com/aboutus/AboutUs_WorkingEnv.gif" alt="VietnamWorks - Our People" width="388" height="298">
 
 <h5>Our Values</h5>
 <ul>
