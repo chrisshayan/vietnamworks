@@ -11,6 +11,7 @@ curl_setopt($ch, CURLOPT_URL, $apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // ignore SSL verification
 
+curl_setopt($ch, CURLOPT_HTTPGET, true); // http request method is GET
 curl_setopt($ch, CURLOPT_HTTPHEADER, array("CONSUMER-ID: $consumerId"));
 curl_setopt($ch, CURLOPT_HTTPHEADER, array("CONTENT-MD5: $apiKey"));
 
