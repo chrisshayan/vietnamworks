@@ -25,7 +25,7 @@ if ($info['http_code'] == 400) {
     $response = json_decode($response, true);
     echo 'Status of email '.$emailToCheck.' is: '.$response['accountStatus'];
 } else {
-    //unknow error
+    //unknown error
     echo "Server returned unknown error: \n".print_r($info, true)."\nResponse: $response";
 }
 
