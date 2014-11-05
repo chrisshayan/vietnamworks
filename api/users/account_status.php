@@ -11,12 +11,27 @@
  * Response on error:
  *      HTTP/1.1 400 Bad Request
  *      Content-Type: application/json
- *      body: {"message": "explain about happened error"}
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 400,
+ *                  "message": "explain about happened error"
+ *              }
+ *          }
  *
  * Response on success:
  *      HTTP/1.1 200 OK
  *      Content-Type: application/json
- *      body: {"accountStatus": "status_code"}  with status_code is one of NEW, ACTIVATED, NON_ACTIVATED, BANNED
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 200
+ *              },
+ *              "data": {
+ *                  "accountStatus": "status_code"
+ *              }
+ *          }
+ *      with status_code is one of NEW, ACTIVATED, NON_ACTIVATED, BANNED
  */
 
 $apiKey         = 'your_api_key';
@@ -40,10 +55,10 @@ $info = curl_getinfo($ch);
 
 if ($info['http_code'] == 400) {
     $response = json_decode($response, true);
-    echo 'Server returned an error with message: '.$response['message'];
+    echo 'Server returned an error with message: '.$response['meta']['message'];
 } elseif ($info['http_code'] == 200 && !empty($response))  {
     $response = json_decode($response, true);
-    echo 'Status of email '.$emailToCheck.' is: '.$response['accountStatus'];
+    echo 'Status of email '.$emailToCheck.' is: '.$response['data']['accountStatus'];
 } else {
     //unknown error
     echo "An error happened: \n".curl_error($ch)."\nInformation: ".print_r($info, true)."\nResponse: $response";
