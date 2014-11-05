@@ -54,7 +54,7 @@ $jsonString = json_encode(array(
 $ch = curl_init();
 
 curl_setopt_array($ch, array(
-    CURLOPT_URL             => $apiUrl,
+    CURLOPT_URL             => $apiHost.$apiPath,
     CURLOPT_RETURNTRANSFER  => true,
     CURLOPT_SSL_VERIFYPEER  => false, // ignore SSL verification
     CURLOPT_POST            => true,  // http request method is POST
