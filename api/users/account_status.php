@@ -4,7 +4,7 @@
  * Production API server:   https://api.vietnamworks.com
  *
  * Request:
- *      GET https://{api_server_domain}/users/account-status/?email=email_to_check@test.com
+ *      GET https://{api_server_domain}/users/account-status/email/email_to_check@test.com
  *      headers:
  *          CONTENT-MD5: your_api_key
  *
@@ -28,7 +28,7 @@ $emailToCheck   = 'test@email.com';
 $ch = curl_init();
 
 curl_setopt_array($ch, array(
-    CURLOPT_URL             => $apiHost.$apiPath.'?'.http_build_query(array('email' => $emailToCheck)),
+    CURLOPT_URL             => $apiHost.$apiPath."email/".urlencode($emailToCheck),
     CURLOPT_RETURNTRANSFER  => true,
     CURLOPT_SSL_VERIFYPEER  => false,   // ignore SSL verification
     CURLOPT_HTTPGET         => true,    // http request method is GET
