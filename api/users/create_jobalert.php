@@ -27,13 +27,27 @@
  * Response on error:
  *      HTTP/1.1 400 Bad Request
  *      Content-Type: application/json
- *      body: {"message": "explain about happened error"}
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 400,
+ *                  "message": "explain about happened error"
+ *              }
+ *          }
  *
  * Response on success:
  *      HTTP/1.1 200 OK
  *      Content-Type: application/json
- *      body: {"createdStatus": "SENT_EMAIL"}
- *          an email is sent to submitted email address
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 200
+ *              },
+ *              "data": {
+ *                  "createdStatus": "SENT_EMAIL"
+ *              }
+ *          }
+ *      an email is sent to submitted email address
  */
 
 $apiKey     = 'your_api_key';
@@ -71,10 +85,10 @@ $info = curl_getinfo($ch);
 
 if ($info['http_code'] == 400) { // error happened
     $response = json_decode($response, true);
-    echo 'Server returned an error with message: '.$response['message'];
+    echo 'Server returned an error with message: '.$response['meta']['message'];
 } elseif ($info['http_code'] == 200 && !empty($response))  {
     $response = json_decode($response, true);
-    echo 'Response status: '.$response['createdStatus'];
+    echo 'Response status: '.$response['data']['createdStatus'];
 } else {
     //unknown error
     echo "An error happened: \n".curl_error($ch)."\nInformation: ".print_r($info, true)."\nResponse: $response";

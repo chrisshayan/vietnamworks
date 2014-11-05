@@ -8,10 +8,29 @@
  *      headers:
  *          CONTENT-MD5: your_api_key
  *
+ * Response on error:
+ *      HTTP/1.1 400 Bad Request
+ *      Content-Type: application/json
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 400,
+ *                  "message": "explain about happened error"
+ *              }
+ *          }
+ *
  * Response on success:
  *      HTTP/1.1 200 OK
  *      Content-Type: application/json
- *      body: {"accountStatus": "status_code"}  with status_code is one of NEW, ACTIVATED, NON_ACTIVATED, BANNED
+ *      body:
+ *          {
+ *              "meta": {
+ *                  "code": 200
+ *              },
+ *              "data": {
+ *                  ...
+ *              }
+ *          }
  */
 
 $apiKey         = 'your_api_key';
