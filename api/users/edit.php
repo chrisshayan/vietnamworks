@@ -15,7 +15,7 @@
  *          birthday                    string      optional    format (dd/mm/yyy)
  *          gender                      integer     optional    1: Male ; 2: Female
  *          nationality                 integer     optional    country_id
- *          residence                   integer     optional    city_id
+ *          residence                   string      optional    address
  *          home_phone                  string      optional
  *          cell_phone                  string      optional
  *          language                    integer     optional    1: Vietnamese ; 2: English; 3: Japanese
