@@ -15,7 +15,7 @@
  *          birthday                    string      optional    format (dd/mm/yyy)
  *          gender                      integer     optional    1: Male ; 2: Female
  *          nationality                 integer     optional    country_id
- *          residence                   integer     optional    city_id
+ *          residence                   string      optional    address
  *          home_phone                  string      optional
  *          cell_phone                  string      optional
  *          language                    integer     optional    1: Vietnamese ; 2: English; 3: Japanese
@@ -45,7 +45,7 @@ $jsonString = json_encode(array(
     'birthday'          => '14/02/2001',
     'gender'            => 1,               // Male
     'nationality'       => 1,               // Vietnam
-    'residence'         => 29,              // Ho Chi Minh
+    'residence'         => "123 Truong Dinh street, Ho Chi Minh city",
     'home_phone'        => '0839258456',
     'cell_phone'        => '0901234567',
     'language'          => 1                // Vietnamese
