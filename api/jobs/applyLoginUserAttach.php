@@ -14,10 +14,6 @@
  *          resume_attach_id        int         optional    required if file_contents is null, user can re-use attachment cv from last apply job
  *          application_subject     string      required    Subject or title of application( Ex: Application for PHP Developer via VietnamWorks)
  *          cover_letter            string      optional
- *          email                   string      optional    required if user is anonymous
- *          password                string      optional    required if user is anonymous
- *          first_name              string      optional    required if user is anonymous
- *          last_name               string      optional    required if user is anonymous
  *          lang                    integer     optional    1: Vietnamese ; 2: English; 3: Japanese
  *
  * Response on error:
@@ -29,7 +25,6 @@
  *      HTTP/1.1 200 OK
  *      Content-Type: application/json
  *      body: { "Applied"}
- *          If user is anonymous then an activation email is sent to email address of job-seeker
  *          a notify email is sent to email address of job-seeker
  *          a notify email with attachment for resume is sent to employer who is owner of job
  */
@@ -46,10 +41,6 @@ $post = array(
     'resume_attach_id' => '',
     'application_subject' => 'Application for Abc via VietnamWorks',
     'cover_letter' => 'test',
-    'email' => 'ttson1001@yopmail.com',
-    'password' => '123456',
-    'first_name' => 'Thai Son',
-    'last_name' => 'Tran',
     'lang' => '1'
 );
 $ch = curl_init();
