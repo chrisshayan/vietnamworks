@@ -12,13 +12,13 @@
  *      Parameters:
  *          first_name                  string      optional
  *          last_name                   string      optional
- *          birthday                    string      optional    format (dd/mm/yyy)
- *          gender                      integer     optional    1: Male ; 2: Female
+ *          birthday                    string      optional    format (yyyy-mm-dd)
+ *          genderid                    integer     optional    1: Male ; 2: Female
  *          nationality                 integer     optional    country_id
- *          residence                   string      optional    address
+ *          residence                   integer     optional    city_id
  *          home_phone                  string      optional
  *          cell_phone                  string      optional
- *          language                    integer     optional    1: Vietnamese ; 2: English; 3: Japanese
+ *          lang                        integer     optional    1: Vietnamese ; 2: English; 3: Japanese
  *              values reference at /general/configuration API with path data->languages->language_id
  *
  * Response on error:

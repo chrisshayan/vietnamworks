@@ -10,15 +10,15 @@
  *      Parameters:
  *          email                       string      required
  *          password                    string      required
- *          first_name                  string      required
- *          last_name                   string      required
- *          birthday                    string      optional    format (dd/mm/yyy)
- *          gender                      integer     optional    1: Male ; 2: Female
+ *          firstname                   string      required
+ *          lastname                    string      required
+ *          birthday                    string      optional    format (yyyy-mm-dd)
+ *          genderid                    integer     optional    1: Male ; 2: Female
  *          nationality                 integer     optional    country_id
- *          residence                   string      optional    address
+ *          residence                   integer     optional    city_id
  *          home_phone                  string      optional
  *          cell_phone                  string      optional
- *          language                    integer     optional    1: Vietnamese ; 2: English; 3: Japanese
+ *          lang                        integer     optional    1: Vietnamese ; 2: English; 3: Japanese
  *              values reference at /general/configuration API with path data->languages->language_id
  *
  * Response on error:
@@ -38,17 +38,17 @@ $apiHost    = 'https://api-staging.vietnamworks.com';
 $apiPath    = '/users/register';
 
 $jsonString = json_encode(array(
-    'email'             => 'test_api@yopmail.com',
-    'password'          => 'This is PaSSword',
-    'first_name'        => 'Test',
-    'last_name'         => 'User',
-    'birthday'          => '14/02/2001',
-    'gender'            => 1,               // Male
-    'nationality'       => 1,               // Vietnam
-    'residence'         => "123 Truong Dinh street, Ho Chi Minh city",
-    'home_phone'        => '0839258456',
-    'cell_phone'        => '0901234567',
-    'language'          => 1                // Vietnamese
+    'email' => 'test_api@yopmail.com',
+    'password' => 'This is PaSSword',
+    'firstname' => 'Test',
+    'lastname' => 'User',
+    'birthday' => '2001-02-14',
+    'genderid' => 1, // Male
+    'nationality' => 1, // Vietnam
+    'residence' => 29, // Ho Chi Minh
+    'home_phone' => '0839258456',
+    'cell_phone' => '0901234567',
+    'lang' => 1 // Vietnamese
 ));
 
 $ch = curl_init();
