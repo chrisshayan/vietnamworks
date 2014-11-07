@@ -33,5 +33,5 @@ Deliver a superior solution for recruiting high quality professionals. We guaran
   <li><strong>Wow! Service</strong> We delight our Customers and Job Seekers with extraordinary service! We follow the golden rule: “Treat others the way we would like to be treated”.</li>
   <li><strong>Straight Talk!</strong> We communicate honestly, openly and directly to strengthen trust and move forward. We don’t gossip or complain behind others’ backs, we communicate directly and take responsibility for change.</li>
   <li><strong>Own It!</strong> We take responsibility and take ownership for our actions and for delivering results. We make and keep our commitments. This means we do what we say we will do.</li>
-  <li><strong>Improve It! We achieve excellence through continuous improvement. We develop and grow ourselves and each other through coaching, training and stretching beyond our comfort zone. We take initiative and take action to make improvement.</strong></li>
+  <li><strong>Improve It!</strong></li> We achieve excellence through continuous improvement. We develop and grow ourselves and each other through coaching, training and stretching beyond our comfort zone. We take initiative and take action to make improvement.
 </ul>
