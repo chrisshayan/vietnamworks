@@ -11,7 +11,7 @@ This is a project to explain details of <a href="http://www.vietnamworks.com">Vi
   <li>Apply for a job</li>
 </ul>
 
-To be able to use these APIs you will need a consumer key which you can apply for it by filling <a href="http://www.vietnamworks.com/contact-us/feedback">this request</a> form.
+To be able to use these APIs you will need a consumer key which you can apply for it by filling <a href="http://www.vietnamworks.com/contact-us/feedback">this request</a> form and remember to choose <strong>API Consumer Key</strong> as your topic.
 
 About VietnamWorks
 ============
