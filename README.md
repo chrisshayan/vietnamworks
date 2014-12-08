@@ -16,8 +16,7 @@ To be able to use these APIs you will need a consumer key which you can apply fo
 In the apply process there is a tip. You can use <a href="https://github.com/chrisshayan/vietnamworks/blob/master/api/users/account_status.php">this code</a> to identify what is the status of the user then if status is:
 
 <ul>
-  <li>NEW : You should use the <a href="https://github.com/chrisshayan/vietnamworks/blob/master/api/jobs/applyAnonymousAttach.php">anonymous code</a> for apply</li>
-  <li>ACTIVATED : You should use the login the user, get the login token then use the <a href="https://github.com/chrisshayan/vietnamworks/blob/master/api/jobs/applyLoginUserAttach.php">apply code</a> for apply</li>
+  <li>NEW or ACTIVATED : You should use the <a href="https://github.com/chrisshayan/vietnamworks/blob/master/api/jobs/applyAnonymousAttach.php">anonymous code</a> for apply</li>
   <li>NON_ACTIVATED, BANNED : User cannot apply for any job</li>
 </ul>
 
