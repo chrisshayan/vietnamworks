@@ -9,7 +9,6 @@
  *          CONTENT-MD5: your_api_key
  *      Parameters:
  *          email                       string      required
- *          password                    string      required
  *          firstname                   string      required
  *          lastname                    string      required
  *          birthday                    string      optional    format (yyyy-mm-dd)
