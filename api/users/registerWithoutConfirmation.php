@@ -29,7 +29,7 @@
  *      HTTP/1.1 200 OK
  *      Content-Type: application/json
  *      body: { "userID": "new id of user"}
- *          an activation email is sent to email address of user
+ *          a notification email is sent to email address of user
  */
 
 $apiKey     = 'your_api_key';
