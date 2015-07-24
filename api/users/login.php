@@ -70,7 +70,15 @@ $responseArray = (array)json_decode($response, true);;
 if ($responseArray['meta']['code'] == 400) { // error happened
     echo 'Server returned an error with message: '.$responseArray['meta']['message'];
 } elseif ($responseArray['meta']['code'] == 200)  {
-    echo "Response status: ".$responseArray['meta']['message']."\nUser Info: ".$responseArray['data'];
+    if ($responseArray['meta']['message'] == 'OK') {
+		echo 'Login successfully <br />';
+		// login successfully. Handle your own code here
+		var_dump($responseArray['data']);
+	} else {
+		echo 'Login failed <br />';
+		// fail to login. Handle your own code here
+		var_dump($responseArray['meta']);
+	}
 } else {
     //unknown error
     $info = curl_getinfo($ch);
