@@ -53,14 +53,12 @@
  *      }
  *          an activation email is sent to email address of user
  */
-
-$apiKey     = 'your_api_key';
+$apiKey     = 'Consumer Key goes here';
 $apiHost    = 'https://api-staging.vietnamworks.com';
 $apiPath    = '/jobs/search';
-
 $jsonString = json_encode(array(
     'page_number' => 1,
-    'job_title' => 'keyword',
+    'job_title' => 'keyword goes here',
     'job_location' => "24,29",
     'job_category' => "1,35",
     'job_level' => 3,
@@ -68,9 +66,7 @@ $jsonString = json_encode(array(
     'job_benefit' => "1,2,3",
     'page_size' => 20
 ));
-
 $ch = curl_init();
-
 curl_setopt_array($ch, array(
     CURLOPT_URL             => $apiHost.$apiPath,
     CURLOPT_RETURNTRANSFER  => true,
@@ -83,18 +79,17 @@ curl_setopt_array($ch, array(
     ),
     CURLOPT_POSTFIELDS      => $jsonString
 ));
-
 $response = curl_exec($ch);
 $responseArray = (array)json_decode($response, true);;
-
 if ($responseArray['meta']['code'] == 400) { // error happened
     echo 'Server returned an error with message: '.$responseArray['meta']['message'];
 } elseif ($responseArray['meta']['code'] == 200)  {
-    echo "Response status: ".$responseArray['meta']['message']."\nJob Information: ".$responseArray['data'];
+    echo "Response status: ".$responseArray['meta']['message']."<br />\nJob Information: <br />";
+    // search OK. Handle your own code here with $responseArray['data']
+    var_dump($responseArray['data']);
 } else {
     //unknown error
     $info = curl_getinfo($ch);
     echo "An error happened: \n".curl_error($ch)."\nInformation: ".print_r($info, true)."\nResponse: $response";
 }
-
 curl_close($ch);
