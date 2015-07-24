@@ -8,8 +8,8 @@
  *      headers:
  *          CONTENT-MD5: your_api_key
  *      Parameters:
- *          username                    string      required
- *          password                    string      required
+ *          user_email                    string      required
+ *          user_password                    string      required
  *
  * Response on error:
  *      HTTP/1.1 400 Bad Request
@@ -45,8 +45,8 @@ $apiHost    = 'https://api-staging.vietnamworks.com';
 $apiPath    = '/users/login';
 
 $jsonString = json_encode(array(
-    'username' => 'test_api@yopmail.com',
-    'password' => 'This is PaSSword'
+    'user_email' => 'test_api@yopmail.com',
+    'user_password' => 'This is PaSSword'
 ));
 
 $ch = curl_init();
