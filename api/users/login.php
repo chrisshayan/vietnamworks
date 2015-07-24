@@ -70,7 +70,7 @@ $responseArray = (array)json_decode($response, true);;
 if ($responseArray['meta']['code'] == 400) { // error happened
     echo 'Server returned an error with message: '.$responseArray['meta']['message'];
 } elseif ($responseArray['meta']['code'] == 200)  {
-    echo "Response status: ".$responseArray['meta']['message']."\nNew userID: ".$responseArray['data']['userID'];
+    echo "Response status: ".$responseArray['meta']['message']."\nUser Info: ".$responseArray['data'];
 } else {
     //unknown error
     $info = curl_getinfo($ch);
