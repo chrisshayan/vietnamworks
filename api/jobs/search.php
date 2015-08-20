@@ -17,6 +17,7 @@
  *          job_salary                  integer     optional
  *          job_benefit                 string      optional(Maximum is 3) list of industry ids which can be found in https://api-staging.vietnamworks.com/general/configuration/
  *          page_size                   integer     optional
+ *          tt_type                     integer     optional Just use for techlooper client only. Value: 1 => jobs have top priority tech premium service, 2 => job have no top priority tech premium service, otherwise => both
  *
  * Response on error:
  *      HTTP/1.1 400 Bad Request
