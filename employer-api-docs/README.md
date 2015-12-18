@@ -27,11 +27,11 @@ By using Vietnamworks’s API, you agree to our [terms of service](http://employ
 
 In order to publish on behalf of a Vietnamworks Employer account, you will need an access token. An access token grants limited access to a user’s account. We offer to acquire an access token by browser-based OAuth authentication.
 
-Unless there is a compelling reason, you should use browser-based authentication.
 
 ### 2.1. Browser-based authentication
 
-First you must contact to [Vietnamworks](http://www.vietnamworks.com/contact-us)  to register an application. Then we will supply you a `clientId` and and a `clientSecret` with which you may access Vietnamworks’s API. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
+To be able to use these APIs you will need a consumer key which you can apply for it by filling [Vietnamworks feedback form](http://www.vietnamworks.com/contact-us/feedback) and remember to choose API Consumer Key as your topic and mention your company name as well as requesting to access Employer API. 
+Then we will supply you a `clientId` and and a `clientSecret` with which you may access Vietnamworks’s API. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
 
 The first step is to acquire a short term authorization code by sending the user to our authorization URL so they can grant access to your integration.
 
@@ -48,7 +48,7 @@ With the following parameters:
 | Parameter       | Type     | Required?  | Description                                     |
 | -------------   |----------|------------|-------------------------------------------------|
 | `client_id`     | string   | required   | The clientId we will supply you that identifies your integration. |
-| `scope`         | string   | required   | The access that your integration is requesting, comma separated. Currently, there are three valid scope values, which are listed below. Most integrations should request `jobpost` |
+| `scope`         | string   | required   | The access that your integration is requesting, comma separated. Currently, there are two valid scope values, which are listed below. Most integrations should request `jobview` `jobpost` |
 | `state`         | string   | required   | Arbitrary text of your choosing, which we will repeat back to you to help you prevent request forgery. |
 | `response_type` | string   | required   | The field currently has only one valid value, and should be `code`.  |
 | `redirect_uri`  | string   | required   | The URL where we will send the user after they have completed the login dialog. This must exactly match one of the callback URLs you provided when creating your app. This field should be URL encoded. |
@@ -57,7 +57,8 @@ The following scope values are valid:
 
 | Scope              | Description                                                             | Extended |
 | -------------------| ----------------------------------------------------------------------- | -------- |
-| employer       | Grants the ability to publish a job posting to Vietnamworks website    | No       |
+| jobview       | Grants basic access to a approval job posting’s information related to the employer.    | No       |
+| jobpost       | Grants the ability to publish a job posting to Vietnamworks website    | No       |
 
 Integrations are not permitted to request extended scope from users without explicit prior permission from Vietnamworks. Attempting to request these permissions through the standard user authentication flow will result in an error if extended scope has not been authorized for an integration.
 
