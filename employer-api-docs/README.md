@@ -533,27 +533,27 @@ With the following fields:
 | -------------   |--------------|------------|-------------------------------------------------|
 | job_title           | string       | required   | The title of the job posting. Titles longer than 100 characters will be ignored.|
 | job_level   | integer       | required   | The job level of the job posting |
-| job_categories | integer array | required   | industries of the job posting. Maximum is 3 industries.  |
+| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
 | job_category_orders  | integer array | required  | The order of `job_categories` list |
-| job_locations | integer array | required   | working cities of the job posting. Maximum is 3 cities.  |
+| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
 | report_to | string | required | Position will report to |
-| minimum_salary | integer | required | Salary range from |
-| maximum_salary | integer | required | Salary range to |
-| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website |
-| job_description | string | required | Short description of the job posting. |
-| job_requirements | string | required | The job posting requirements |
-| skill_tag1 | string | optional | Skill requirement for job posting position |
-| skill_tag2 | string | optional | Skill requirement for job posting position |
-| skill_tag3 | string | optional | Skill requirement for job posting position |
-| company_name | string | required | The employer’s company name on Vietnamworks |
+| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
+| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
+| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
+| job_description | string | required | Short description of the job posting. Job description longer than 14500 characters will be ignored. |
+| job_requirements | string | required | The job posting requirements. Job requirements longer than 14500 characters will be ignored. |
+| skill_tag1 | string | optional | Skill requirement for job posting position. Skill tag 1 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag2 | string | optional | Skill requirement for job posting position. Skill tag 2 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag3 | string | optional | Skill requirement for job posting position. Skill tag 3 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| company_name | string | required | The employer’s company name on Vietnamworks. Company name longer than 255 characters will be ignored. |
 | company_size | string | required | Number of employee in employer company |
 | company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information |
+| company_profile | string | required | Employer company information. Company profile longer than 10000 characters will be ignored. |
 | company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications |
+| email_for_application | string | required | The email to recive job applications. Enter the valid email and email for application longer than 255 characters will be ignored. |
 | preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
 | job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
 
@@ -696,27 +696,27 @@ With the following fields:
 | -------------   |--------------|------------|-------------------------------------------------|
 | job_title           | string       | required   | The title of the job posting. Titles longer than 100 characters will be ignored.|
 | job_level   | integer       | required   | The job level of the job posting |
-| job_categories | integer array | required   | industries of the job posting. Maximum is 3 industries.  |
-| job_category_orders  | string | required  | The order of `job_categories` list |
-| job_locations | integer array | required   | working cities of the job posting. Maximum is 3 cities.  |
+| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
+| job_category_orders  | integer array | required  | The order of `job_categories` list |
+| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
 | report_to | string | required | Position will report to |
-| minimum_salary | integer | required | Salary range from |
-| maximum_salary | integer | required | Salary range to |
-| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website |
-| job_description | string | required | Short description of the job posting. |
-| job_requirements | string | required | The job posting requirements |
-| skill_tag1 | string | optional | Skill requirement for job posting position |
-| skill_tag2 | string | optional | Skill requirement for job posting position |
-| skill_tag3 | string | optional | Skill requirement for job posting position |
-| company_name | string | required | The employer’s company name on Vietnamworks |
+| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
+| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
+| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
+| job_description | string | required | Short description of the job posting. Job description longer than 14500 characters will be ignored. |
+| job_requirements | string | required | The job posting requirements. Job requirements longer than 14500 characters will be ignored. |
+| skill_tag1 | string | optional | Skill requirement for job posting position. Skill tag 1 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag2 | string | optional | Skill requirement for job posting position. Skill tag 2 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag3 | string | optional | Skill requirement for job posting position. Skill tag 3 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| company_name | string | required | The employer’s company name on Vietnamworks. Company name longer than 255 characters will be ignored. |
 | company_size | string | required | Number of employee in employer company |
 | company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information |
+| company_profile | string | required | Employer company information. Company profile longer than 10000 characters will be ignored. |
 | company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications |
+| email_for_application | string | required | The email to recive job applications. Enter the valid email and email for application longer than 255 characters will be ignored. |
 | preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
 | job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
 
