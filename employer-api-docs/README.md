@@ -96,7 +96,7 @@ If the user declines access, we will send them back to the specified `redirect_u
 https://example.com/callback?error=access_denied
 ```
 
-Once you have an authorization code, you may exchange it for a long-lived access token with which you can make authenticated requests on behalf of the user. To acquire an access token, make a form-encoded server-side POST request:
+Once you have an authorization code, you may exchange it for a long-lived access token with which you can make authenticated requests on behalf of the user. To acquire an access token, make a form-encoded server-side GET request:
 
 ```
 GET /oauth/v2/token HTTP/1.1
@@ -133,7 +133,7 @@ HTTP/1.1 201 OK
 Content-Type: application/json; charset=utf-8
 {
     access_token: "MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA",
-    expires_in: 108000,
+    expires_in: 2592000,
     token_type: "bearer",
     scope: "jobpost",
     refresh_token: "ZWMzYTNjYjMzZDkzOTYyNTEyNTUwZjdmMzMwOTIwM2RlOGU4MTgxNTNiNDMwNDg4OWY1ZGJmYzkwNDVhMGM3NA"
