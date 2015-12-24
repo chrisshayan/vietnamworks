@@ -145,7 +145,7 @@ With the following parameters:
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
 | `token_type`    | string       | required   | The literal string "Bearer"                     |
-| `access_token`  | string       | required   | A token that is valid for 60 days and may be used to perform authenticated requests on behalf of the user. |
+| `access_token`  | string       | required   | A token that is valid for 30 days and may be used to perform authenticated requests on behalf of the user. |
 | `refresh_token` | string       | required   | A token that does not expire which may be used to acquire a new `access_token`.                            |
 | `scope`         | string array | required   | The scopes granted to your integration.         |
 | `expires_in`    | int64        | required   | The timestamp in unix time when the access token will expire |
