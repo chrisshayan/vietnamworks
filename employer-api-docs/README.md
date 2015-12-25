@@ -18,6 +18,10 @@ This repository contains the documentation for [Vietnamworks](http://www.vietnam
 Vietnamworks’s API is a JSON-based OAuth2 API. All requests are made to endpoints beginning:
 `https://api.vietnamworks.com/api/rest/v1`
 
+Testing Vietnamworks's API is a JSON-based OAuth2 API. All requests are made to endpoints beginning:
+
+`https://api-staging.vietnamworks.com/api/rest/v1`
+
 All requests must be secure, i.e. `https`, not `http`.
 
 #### Developer agreement
@@ -152,10 +156,10 @@ With the following parameters:
 
 Each access token is valid for 30 days. When an access token expires, you may request a new token using the refresh token. Refresh tokens do not expire. Both access tokens and refresh tokens may be revoked by the user at any time. **You must treat both access tokens and refresh tokens like passwords and store them securely.**
 
-Both access tokens and refresh tokens are consecutive strings of hex digits, like this:
+Access token and refresh token like this:
 
 ```
-181d415f34379af07b2c11d144dfbe35d
+MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 ```
 
 To acquire a new access token using a refresh token, make the following form-encoded request:
