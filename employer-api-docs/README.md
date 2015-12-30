@@ -592,7 +592,7 @@ PUT https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}.json
 Example request:
 
 ```
-PUT /api/rest/v1/jobs.json HTTP/1.1
+PUT /api/rest/v1/jobs/{jobId}.json HTTP/1.1
 Host: api.vietnamworks.com
 Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
@@ -683,7 +683,7 @@ PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}.json
 Example request:
 
 ```
-PATCH /api/rest/v1/jobs.json HTTP/1.1
+PATCH /api/rest/v1/jobs/{jobId}.json HTTP/1.1
 Host: api.vietnamworks.com
 Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
@@ -691,39 +691,7 @@ Accept: application/json
 Accept-Charset: utf-8
 {
     "job": {
-        "job_title": "Fresher Software Test Engineer",
-        "job_level": 5,
-        "job_categories": [
-            35,
-            70
-        ],
-        "job_category_orders": "35,70",
-        "job_locations": [
-            29,
-            24
-        ],
-        "report_to": "IT Manager",
-        "minimum_salary": 700,
-        "maximum_salary": 1000,
-        "is_show_salary": 1,
-        "job_description": "Analyze system and software requirements",
-        "job_requirements": "Bachelor degree or above in Electrical Engineering or equivalent",
-        "skill_tag1": "English Advanced",
-        "skill_tag2": "Embedded - C/C++ ",
-        "skill_tag3": "QA/QC",
-        "company_name": "VietnamWorks",
-        "company_size": 4,
-        "company_address": "10th Floor, Golden Tower, 6 Nguyen Thi Minh Khai, District 1, HCM City.",
-        "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
-        "company_benefit1": {
-            "benefit_id": 1,
-            "benefit_desc": "12 days annual leave"
-        },
-        "contact_name": "HR Department",
-        "is_show_contact": 1,
-        "email_for_application": "lan.bui@navigosgroup.com",
-        "preferred_language": 2,
-        "job_posting_service": 123
+        "job_title": "Fresher Software Test Engineer"
     }
 }
 ```
@@ -732,31 +700,31 @@ With the following fields:
 
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
-| job_title           | string       | required   | The title of the job posting.|
-| job_level   | integer       | required   | The job level of the job posting |
-| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
-| job_category_orders  | integer array | required  | The order of `job_categories` list |
-| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
-| report_to | string | required | Position will report to |
-| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
-| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
-| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | required | Short description of the job posting. |
-| job_requirements | string | required | The job posting requirements. |
+| job_title           | string       | optional   | The title of the job posting.|
+| job_level   | integer       | optional   | The job level of the job posting |
+| job_categories | integer array | optional   | industries of the job posting. At least one industry and maximum is 3 industries.  |
+| job_category_orders  | integer array | optional  | The order of `job_categories` list. The order depend on existed industries in `job_categories` |
+| job_locations | integer array | optional   | working cities of the job posting. At least one city and maximum is 3 cities.  |
+| report_to | string | optional | Position will report to |
+| minimum_salary | integer | optional | Salary range from, which is greater than 1 and lower than `maximum_salary` |
+| maximum_salary | integer | optional | Salary range to, which is greater than 1 and greater than `maximum_salary` |
+| is_show_salary | integer | optional | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
+| job_description | string | optional | Short description of the job posting. |
+| job_requirements | string | optional | The job posting requirements. |
 | skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
 | skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
 | skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| company_name | string | required | The employer’s company name on Vietnamworks. |
-| company_size | string | required | Number of employee in employer company |
-| company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information. |
-| company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications. |
-| preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
-| job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
+| company_name | string | optional | The employer’s company name on Vietnamworks. |
+| company_size | string | optional | Number of employee in employer company |
+| company_address | string | optional | The employer company’s address |
+| company_profile | string | optional | Employer company information. |
+| company_benefit1 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| company_benefit2 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| company_benefit3 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| is_show_contact | string | optional | Allow to show or not the HR person’s info handle this job posting |
+| email_for_application | string | optional | The email to recive job applications. |
+| preferred_language | string | optional | The resume's language that employer prefer when job-seeker apply |
+| job_posting_service | string | optional | The job posting service id that employer purchase on Vietnamworks |
 
 The response won't be returning a body. Example response:
 
@@ -774,6 +742,48 @@ Possible errors:
 | 403 Forbidden        | The user does not have permission to publish. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
+### 3.5. Active/ Inactive Job Posting
+
+#### Active job posting
+Active a online job posting information on the authenticated user’s profile.
+
+A request looks like this:
+
+```
+PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}/activate.json
+```
+
+The response won't be returning a body. Example response:
+
+```
+HTTP/1.1 204 No Content
+Content-Type: application/json; charset=utf-8
+```
+
+#### Inactive job posting
+Inactive a online job posting information on the authenticated user’s profile.
+
+A request looks like this:
+
+```
+PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}/inactivate.json
+```
+
+The response won't be returning a body. Example response:
+
+```
+HTTP/1.1 204 No Content
+Content-Type: application/json; charset=utf-8
+```
+
+Possible errors:
+
+| Error code           | Description                                                                                                          |
+| ---------------------|----------------------------------------------------------------------------------------------------------------------|
+| 400 Bad Request      | Required fields were invalid, not specified.                                                                         |
+| 401 Unauthorized     | The access token is invalid or has been revoked.                                                                     |
+| 403 Forbidden        | The user does not have permission to publish. |
+| 404 Not Found        | The `jobId` is invalid or not yours job. |
 
 ## 4. Testing
 
