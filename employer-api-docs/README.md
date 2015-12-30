@@ -18,10 +18,6 @@ This repository contains the documentation for [Vietnamworks](http://www.vietnam
 Vietnamworks’s API is a JSON-based OAuth2 API. All requests are made to endpoints beginning:
 `https://api.vietnamworks.com/api/rest/v1`
 
-Testing Vietnamworks's API is a JSON-based OAuth2 API. All requests are made to endpoints beginning:
-
-`https://api-staging.vietnamworks.com/api/rest/v1`
-
 All requests must be secure, i.e. `https`, not `http`.
 
 #### Developer agreement
@@ -189,8 +185,6 @@ With the following parameters:
 
 The API is RESTful and arranged around resources. All requests must be made with an integration token. All requests must be made using `https`.
 
-Typically, the first request you make should be to acquire user details. This will confirm that your access token is valid, and give you a user id that you will need for subsequent requests.
-
 ### 3.1. Job Form Structure
 
 #### Getting the job form’s details
@@ -205,7 +199,7 @@ Example request:
 ```
 GET api/rest/v1/jobs/new.json HTTP/1.1
 Host: api.vietnamworks.com
-Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
+Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
 Accept: application/json
 Accept-Charset: utf-8
@@ -218,36 +212,35 @@ Example response:
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
+
 {
-  code: 200,
-  form_view: {
-    job: {
-		job_title: {
-          name: "job_title",
-          required: true,
-          type: "text",
-          expanded: false,
-          multiple: false,
-          data: "",
-          values: [ ],
-          readonly: false	
+  "code": 200,
+  "form_view": {
+     "job": {
+		"job_title": {
+           "name": "job_title",
+           "required": true,
+           "type": "text",
+           "expanded": false,
+           "multiple": false,
+           "readonly": false,
+           "max_length": 100
         },
-        job_level: {
-          name: "job_level",
-          required: true,
-          type: "choice",
-          expanded: false,
-          multiple: false,
-          data: "",
-          values: [
-          	{
-              label: "New Grad/Entry Level/Internship",
-              value: "1",
-              data: 1
-            },
+        "job_level": {
+           "name": "job_level",
+           "required": true,
+           "type": "choice",
+           "expanded": false,
+           "multiple": false,
+           "values": [
+          	  {
+              "label": "New Grad/Entry Level/Internship",
+              "value": "1",
+              "data": 1
+              },
             ...
           ],
-          readonly: false
+          "readonly": false
         },
         ...
     }
@@ -257,46 +250,47 @@ Content-Type: application/json; charset=utf-8
 
 Where a Job Form object is:
 
-| Field      | Type   | Required   |Description                               | 
-| -----------|--------|--------|----------------------------------------------|
-| job_title  | text | true | The title of job posting.               |
-| job_level  | choice | true | The level of job posting.                  |
-| job_categories| choice | true | Industries of job posting. Choose maximum 3 industries|
-| job_locations| choice | true | Locations of job posting. Choose maximum 3 cities|
-| report_to| text | true | This job position will report to|
-| minimum_salary| text | true | Salary range from|
-| maximum_salary| text | true | Salary range to|
-| is_show_salary| radio  | true | Allow to show or not salary range on Vietnamworks website|
-| job_description | textarea  | true| The short description job posting|
-| job_requirements| textarea | true| The job posting requirements|
-| skill_tag1 | text  | false | Skill requirement for job posting position |
-| skill_tag2 | text  | false | Skill requirement for job posting position|
-| skill_tag3 | text  | false | Skill requirement for job posting position|
-| company_name| text | true| The employer’s company name on Vietnamworks |
-| company_size | choice | true| Number of employee in employer company   |
-| company_address | text | true| The employer company’s address. |
-| company_profile | textarea | true| Employer company information|
-| company_benefit1 | benefit  | false | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| company_benefit2 | benefit  | false | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| company_benefit3 | benefit  | false | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| contact_name | text | true| The HR person’s name handle this job posting|
-| is_show_contact | checkbox | false | Allow to show or not the HR person’s info handle this job posting|
-| email_for_application | text | true| The email to recive job applications|
-| preferred_language  | choice | true| The resume's language that employer prefer when job-seeker apply|
-| job_posting_service  | choice  | true| The job posting service that employer purchase on Vietnamworks|
+| Field      | Type   | Required   | Max Length |Description                               |
+| -----------|--------|--------|--------|----------------------------------------------|
+| job_title  | text | true | 100 | The title of job posting.|
+| job_level  | choice | true |  | The level of job posting.                  |
+| job_categories| choice | true |  | Industries of job posting. Choose maximum 3 industries|
+| job_category_orders  | text | true  |  | The list of industries separated by commas in order of display|
+| job_locations| choice | true |  | Locations of job posting. Choose maximum 3 cities|
+| report_to| text | true |  | This job position will report to|
+| minimum_salary| text | true |  | Salary range from|
+| maximum_salary| text | true |  | Salary range to|
+| is_show_salary| radio  | true |  | Allow to show or not salary range on Vietnamworks website|
+| job_description | textarea  | true| 14500 | The short description job posting. |
+| job_requirements| textarea | true| 14500 | The job posting requirements. |
+| skill_tag1 | text  | false | 100 | Skill requirement for job posting position. |
+| skill_tag2 | text  | false | 100 | Skill requirement for job posting position. |
+| skill_tag3 | text  | false | 100 | Skill requirement for job posting position. |
+| company_name| text | true| 255 | The employer’s company name on Vietnamworks. |
+| company_size | choice | true|  | Number of employee in employer company   |
+| company_address | text | true|  | The employer company’s address. |
+| company_profile | textarea | true| 10000 | Employer company information|
+| company_benefit1 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
+| company_benefit2 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
+| company_benefit3 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
+| contact_name | text | true| 30 | The HR person’s name handle this job posting|
+| is_show_contact | checkbox | false |  | Allow to show or not the HR person’s info handle this job posting|
+| email_for_application | text | true| 255 | The email to recive job applications|
+| preferred_language  | choice | true|  | The resume's language that employer prefer when job-seeker apply|
+| job_posting_service  | choice  | true|  | The job posting service that employer purchase on Vietnamworks|
 
 Possible errors:
 
 | Error code           | Description                                     |
 | ---------------------|-------------------------------------------------|
+| 400 Bad request      | There is no available job posting service.      |
 | 401 Unauthorized     | The `accessToken` is invalid or has been revoked. |
-
 
 ### 3.2. Job Posting
 
 #### Listing the employer’s jobs posting
 
-Returns a full list of approved job posting that the employer. This endpoint offers a set of data similar to what you’ll see at http://employer.vietnamworks.com/beta/job/default/index when logged in.
+Returns a full list of approved job posting that the employer. This endpoint offers a set of data similar to what you will see at http://employer.vietnamworks.com/beta/job/default/index when logged in.
 
 The REST API endpoint exposes this list of approved job posting as a collection of resources under the employer. A request to fetch a list of approved job posting for a employer looks like this:
 
@@ -311,38 +305,34 @@ Example response:
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
+
 {
-  code: 200,
-  jobs: {
-      data: [
+  "code": 200,
+  "jobs": {
+     "data": [
         {
-          "job_title": "Sales Executive - Japanese Business Unit",
-          "salary_range_id": 0,
-          "job_description": "Develop an extensive customer database, especially Japanese clients.",
-          "job_requirements": "Good written and spoken English is Essential.",
-          "company_name": "Vietnamworks",
-          "company_size_id": 4,
-          "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
-          "email_for_application": "son.tran@navigosgroup.com",
-          "contact_name": "Tran Thai Son",
-          "company_address": "130 Suong Nguyet Anh",
-          "created_date": "2015-12-09T14:32:56+07:00",
-          "duration_days": 30,
-          "expired_date": "2016-01-15T23:59:59+07:00",
-          "approved_date": "2015-12-16T17:06:46+07:00",
-          "last_updated_date": "2015-12-16T17:06:46+07:00",
-          "company_id": 201114,
-          "num_of_views": 0,
-          "preferred_language_id": 2,
-          "is_show_logo": 0,
-          "salary_max": 1000,
-          "salary_min": 700,
-          "job_level_id": 5,
-          "is_show_contact": true,
-          "unformatted_job_title": "Sales Executive - Japanese Business Unit",
-          "alias": "sales-executive-japanese-business-unit-19",
-          "unformatted_company_name": "Vietnamworks",
-          "id": 561451
+           "job_title": "Sales Executive - Japanese Business Unit",
+           "job_description": "Develop an extensive customer database, especially Japanese clients.",
+           "job_requirements": "Good written and spoken English is Essential.",
+           "company_name": "Vietnamworks",
+           "company_size_id": 4,
+           "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
+           "email_for_application": "son.tran@navigosgroup.com",
+           "contact_name": "Tran Thai Son",
+           "company_address": "130 Suong Nguyet Anh",
+           "created_date": "2015-12-09T14:32:56+07:00",
+           "duration_days": 30,
+           "expired_date": "2016-01-15T23:59:59+07:00",
+           "approved_date": "2015-12-16T17:06:46+07:00",
+           "last_updated_date": "2015-12-16T17:06:46+07:00",
+           "company_id": 201114,
+           "num_of_views": 0,
+           ...
+           "is_show_contact": true,
+           "unformatted_job_title": "Sales Executive - Japanese Business Unit",
+           "alias": "sales-executive-japanese-business-unit-19",
+           "unformatted_company_name": "Vietnamworks",
+           "id": 561451
         }
       ]
   }
@@ -358,26 +348,31 @@ Where a Job Posting object is:
 | job_description | string | Short description of the job posting.           |
 | job_requirements | string | The job posting requirements.           |
 | company_name | string | The employer’s company name on Vietnamworks. |
-| company_size_id | string | Number of employee in employer company. |
+| company_size_id | number | Number of employee in employer company. |
 | company_profile | string | Employer company information.           |
 | email_for_application | string | The email to recive job applications.           |
 | contact_name | string | The HR person’s name handle this job posting.|
 | company_address | string | The employer company’s address.           |
-| created_date | string | Created date of job posting.           |
-| duration_days | string | Dureation days to show job posting on job-seeker site.           |
+| created_date | timestamp | Created date of job posting.           |
+| duration_days | number | Dureation days to show job posting on job-seeker site.           |
 | expired_date | timestamp | Expired date of job posting.           |
 | approved_date | timestamp | Approved date of job posting.           |
 | last_updated_date | timestamp | Lastest update date of job posting.           |
 | company_id | string | A unique identifier for the company.           |
-| num_of_views | string | Number of views from job-seeker           |
+| num_of_views | number | Number of views from job-seeker           |
 | preferred_language_id | string | The resume's language id that employer prefer when job-seeker apply.           |
-| salary_max | string | Salary range to |
-| salary_min | string | Salary range from |
-| job_level_id | string | The level id of job posting.           |
-| is_show_contact | string | Allow to show or not the HR person’s info handle this job posting.           |
+| salary_max | number | Salary range to |
+| salary_min | number | Salary range from |
+| job_level_id | number | The level id of job posting.           |
+| is_show_contact | boolean | Allow to show or not the HR person’s info handle this job posting.           |
 | unformatted_job_title | string | The job posting’s title provide by employer.           |
 | alias | string | A unique identifier is generated by job title for the job posting.           |
 | unformatted_company_name | string | The company name provide by employer.|
+| num_of_applications | number | Number of applicatios from job-seeker           |
+| job_locations | array | Array of locations of job posting |
+| job_categories | array | Array of industries of job posting |
+| company_benefits | array | Array of benefits of company |
+| skill_tags | array | Array of skill tags of job posting |
 
 Possible errors:
 
@@ -421,6 +416,7 @@ Content-Type: application/json; charset=utf-8
       "expired_date": "2016-01-15T23:59:59+07:00",
       "approved_date": "2015-12-16T17:06:46+07:00",
       "last_updated_date": "2015-12-16T17:06:46+07:00",
+      ...
       "company_id": 201114,
       "num_of_views": 0,
       "preferred_language_id": 2,
@@ -466,13 +462,19 @@ Where a Job Posting object is:
 | unformatted_job_title | string | The job posting’s title provide by employer.           |
 | alias | string | A unique identifier is generated by job title for the job posting.           |
 | unformatted_company_name | string | The company name provide by employer.|
+| num_of_applications | number | Number of applicatios from job-seeker           |
+| job_locations | array | Array of locations of job posting |
+| job_categories | array | Array of industries of job posting |
+| company_benefits | array | Array of benefits of company |
+| skill_tags | array | Array of skill tags of job posting |
 
 Possible errors:
 
 | Error code           | Description                                                                           |
 | ---------------------|---------------------------------------------------------------------------------------|
-| 401 Unauthorized     | The `accessToken` is invalid, lacks the `listJobPosting` scope or has been revoked. |
-| 401 Forbidden        | The request attempts to list publications for another user.                           |
+| 401 Unauthorized     | The `accessToken` is invalid. |
+| 403 Forbidden        | Lacks the `jobview` scope or has been revoked. |
+| 404 Not Found        | The `jobId` is invalid or not yours job. |
 
 ### 3.3. Posts
 
@@ -488,7 +490,7 @@ Example request:
 ```
 POST /api/rest/v1/jobs.json HTTP/1.1
 Host: api.vietnamworks.com
-Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
+Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
 Accept: application/json
 Accept-Charset: utf-8
@@ -535,7 +537,7 @@ With the following fields:
 
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
-| job_title           | string       | required   | The title of the job posting. Titles longer than 100 characters will be ignored.|
+| job_title           | string       | required   | The title of the job posting.|
 | job_level   | integer       | required   | The job level of the job posting |
 | job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
 | job_category_orders  | integer array | required  | The order of `job_categories` list |
@@ -544,98 +546,39 @@ With the following fields:
 | minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
 | maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
 | is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | required | Short description of the job posting. Job description longer than 14500 characters will be ignored. |
-| job_requirements | string | required | The job posting requirements. Job requirements longer than 14500 characters will be ignored. |
-| skill_tag1 | string | optional | Skill requirement for job posting position. Skill tag 1 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag2 | string | optional | Skill requirement for job posting position. Skill tag 2 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag3 | string | optional | Skill requirement for job posting position. Skill tag 3 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| company_name | string | required | The employer’s company name on Vietnamworks. Company name longer than 255 characters will be ignored. |
+| job_description | string | required | Short description of the job posting. |
+| job_requirements | string | required | The job posting requirements. |
+| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| company_name | string | required | The employer’s company name on Vietnamworks. |
 | company_size | string | required | Number of employee in employer company |
 | company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information. Company profile longer than 10000 characters will be ignored. |
+| company_profile | string | required | Employer company information. |
 | company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications. Enter the valid email and email for application longer than 255 characters will be ignored. |
+| email_for_application | string | required | The email to recive job applications. |
 | preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
 | job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
 
-The response is a Job Posting object within a data envelope. Example response:
+The response is a location header that points to the URL of the new created job. Example response:
 
 ```
-HTTP/1.1 201 OK
+HTTP/1.1 201 Created
 Content-Type: application/json; charset=utf-8
-{
- "data": {
-   "job_title": "Sales Executive - Japanese Business Unit",
-   "salary_range_id": 0,
-   "job_description": "Develop an extensive customer database, especially Japanese clients.",
-   "job_requirements": "Good written and spoken English is Essential.",
-   "company_name": "Vietnamworks",
-   "company_size_id": 4,
-   "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
-   "email_for_application": "son.tran@navigosgroup.com",
-   "contact_name": "Tran Thai Son",
-   "company_address": "130 Suong Nguyet Anh",
-   "created_date": "2015-12-09T14:32:56+07:00",
-   "duration_days": 30,
-   "expired_date": "2016-01-15T23:59:59+07:00",
-   "approved_date": "2015-12-16T17:06:46+07:00",
-   "last_updated_date": "2015-12-16T17:06:46+07:00",
-   "company_id": 201114,
-   "num_of_views": 0,
-   "preferred_language_id": 2,
-   "is_show_logo": 0,
-   "salary_max": 1000,
-   "salary_min": 700,
-   "job_level_id": 5,
-   "is_show_contact": true,
-   "unformatted_job_title": "Sales Executive - Japanese Business Unit",
-   "alias": "sales-executive-japanese-business-unit-19",
-   "unformatted_company_name": "Vietnamworks",
-   "id": 561451
- }
-}
+Location: /api/rest/v1/jobs/578189
 ```
-
-Where a Job Posting object is:
-
-| Field       | Type   | Description                                     |
-| ------------|--------|-------------------------------------------------|
-| id          | string | A unique identifier for the job posting.        |
-| job_title   | string | The job posting’s title on Vietnamworks.        |
-| job_description | string | Short description of the job posting.           |
-| job_requirements | string | The job posting requirements.           |
-| company_name | string | The employer’s company name on Vietnamworks. |
-| company_size_id | string | Number of employee in employer company. |
-| company_profile | string | Employer company information.           |
-| email_for_application | string | The email to recive job applications.           |
-| contact_name | string | The HR person’s name handle this job posting.|
-| company_address | string | The employer company’s address.           |
-| created_date | string | Created date of job posting.           |
-| duration_days | string | Dureation days to show job posting on job-seeker site.           |
-| expired_date | timestamp | Expired date of job posting.           |
-| approved_date | timestamp | Approved date of job posting.           |
-| last_updated_date | timestamp | Lastest update date of job posting.           |
-| company_id | string | A unique identifier for the company.           |
-| num_of_views | string | Number of views from job-seeker           |
-| preferred_language_id | string | The resume's language id that employer prefer when job-seeker apply.           |
-| salary_max | string | Salary range to |
-| salary_min | string | Salary range from |
-| job_level_id | string | The level id of job posting.           |
-| is_show_contact | string | Allow to show or not the HR person’s info handle this job posting.           |
-| unformatted_job_title | string | The job posting’s title provide by employer.           |
-| alias | string | A unique identifier is generated by job title for the job posting.           |
-| unformatted_company_name | string | The company name provide by employer.|
 
 Possible errors:
 
 | Error code           | Description                                                                                                          |
 | ---------------------|----------------------------------------------------------------------------------------------------------------------|
-| 400 Bad Request      | Required fields were invalid, not specified.                                                                         |
+| 400 Bad Request      | Required fields were invalid, not specified. Or there is no available job posting service..                                                                          |
 | 401 Unauthorized     | The access token is invalid or has been revoked.                                                                     |
-| 403 Forbidden        | The user does not have permission to publish, or the authorId in the request path points to wrong/non-existent user. |
+| 403 Forbidden        | The user does not have permission to publish. |
+| 404 Not Found        | The `jobId` is invalid or not yours job. |
 
 ### 3.4. Edit
 
@@ -651,7 +594,7 @@ Example request:
 ```
 PUT /api/rest/v1/jobs.json HTTP/1.1
 Host: api.vietnamworks.com
-Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
+Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
 Accept: application/json
 Accept-Charset: utf-8
@@ -688,8 +631,7 @@ Accept-Charset: utf-8
         "contact_name": "HR Department",
         "is_show_contact": 1,
         "email_for_application": "lan.bui@navigosgroup.com",
-        "preferred_language": 2,
-        "job_posting_service": 123
+        "preferred_language": 2
     }
 }
 ```
@@ -698,7 +640,7 @@ With the following fields:
 
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
-| job_title           | string       | required   | The title of the job posting. Titles longer than 100 characters will be ignored.|
+| job_title           | string       | required   | The title of the job posting.|
 | job_level   | integer       | required   | The job level of the job posting |
 | job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
 | job_category_orders  | integer array | required  | The order of `job_categories` list |
@@ -707,60 +649,30 @@ With the following fields:
 | minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
 | maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
 | is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | required | Short description of the job posting. Job description longer than 14500 characters will be ignored. |
-| job_requirements | string | required | The job posting requirements. Job requirements longer than 14500 characters will be ignored. |
-| skill_tag1 | string | optional | Skill requirement for job posting position. Skill tag 1 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag2 | string | optional | Skill requirement for job posting position. Skill tag 2 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag3 | string | optional | Skill requirement for job posting position. Skill tag 3 longer than 100 characters will be ignored and enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| company_name | string | required | The employer’s company name on Vietnamworks. Company name longer than 255 characters will be ignored. |
+| job_description | string | required | Short description of the job posting. |
+| job_requirements | string | required | The job posting requirements. |
+| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| company_name | string | required | The employer’s company name on Vietnamworks. |
 | company_size | string | required | Number of employee in employer company |
 | company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information. Company profile longer than 10000 characters will be ignored. |
+| company_profile | string | required | Employer company information. |
 | company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
 | is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications. Enter the valid email and email for application longer than 255 characters will be ignored. |
+| email_for_application | string | required | The email to recive job applications. |
 | preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
 | job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
 
-The response is a Job Posting object within a data envelope. Example response:
+The response won't be returning a body. Example response:
 
 ```
-HTTP/1.1 201 OK
+HTTP/1.1 204 No Content
 Content-Type: application/json; charset=utf-8
-{
- "data": {
-   "job_title": "Sales Executive - Japanese Business Unit",
-   "salary_range_id": 0,
-   "job_description": "Develop an extensive customer database, especially Japanese clients.",
-   "job_requirements": "Good written and spoken English is Essential.",
-   "company_name": "Vietnamworks",
-   "company_size_id": 4,
-   "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
-   "email_for_application": "son.tran@navigosgroup.com",
-   "contact_name": "Tran Thai Son",
-   "company_address": "130 Suong Nguyet Anh",
-   "created_date": "2015-12-09T14:32:56+07:00",
-   "duration_days": 30,
-   "expired_date": "2016-01-15T23:59:59+07:00",
-   "approved_date": "2015-12-16T17:06:46+07:00",
-   "last_updated_date": "2015-12-16T17:06:46+07:00",
-   "company_id": 201114,
-   "num_of_views": 0,
-   "preferred_language_id": 2,
-   "is_show_logo": 0,
-   "salary_max": 1000,
-   "salary_min": 700,
-   "job_level_id": 5,
-   "is_show_contact": true,
-   "unformatted_job_title": "Sales Executive - Japanese Business Unit",
-   "alias": "sales-executive-japanese-business-unit-19",
-   "unformatted_company_name": "Vietnamworks",
-   "id": 561451
- }
-}
 ```
+
 #### Update partial online job posting information
 Update a online job posting information on the authenticated user’s profile.
 
@@ -773,7 +685,7 @@ Example request:
 ```
 PATCH /api/rest/v1/jobs.json HTTP/1.1
 Host: api.vietnamworks.com
-Authorization: Bearer 181d415f34379af07b2c11d144dfbe35d
+Authorization: Bearer MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA
 Content-Type: application/json
 Accept: application/json
 Accept-Charset: utf-8
@@ -820,98 +732,38 @@ With the following fields:
 
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
-| job_title           | string       | optional   | The title of the job posting. Titles longer than 100 characters will be ignored.|
-| job_level   | integer       | optional   | The job level of the job posting |
-| job_categories | integer array | optional   | industries of the job posting. Maximum is 3 industries.  |
-| job_category_orders  | string | optional  | The order of `job_categories` list |
-| job_locations | integer array | optional   | working cities of the job posting. Maximum is 3 cities.  |
-| report_to | string | optional | Position will report to |
-| minimum_salary | integer | optional | Salary range from |
-| maximum_salary | integer | optional | Salary range to |
-| is_show_salary | integer | optional | Allow to show or not salary range on Vietnamworks website |
-| job_description | string | optional | Short description of the job posting. |
-| job_requirements | string | optional | The job posting requirements |
-| skill_tag1 | string | optional | Skill requirement for job posting position |
-| skill_tag2 | string | optional | Skill requirement for job posting position |
-| skill_tag3 | string | optional | Skill requirement for job posting position |
-| company_name | string | optional | The employer’s company name on Vietnamworks |
-| company_size | string | optional | Number of employee in employer company |
-| company_address | string | optional | The employer company’s address |
-| company_profile | string | optional | Employer company information |
-| company_benefit1 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit2 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit3 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| is_show_contact | string | optional | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | optional | The email to recive job applications |
-| preferred_language | string | optional | The resume's language that employer prefer when job-seeker apply |
-| job_posting_service | string | optional | The job posting service id that employer purchase on Vietnamworks |
+| job_title           | string       | required   | The title of the job posting.|
+| job_level   | integer       | required   | The job level of the job posting |
+| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
+| job_category_orders  | integer array | required  | The order of `job_categories` list |
+| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
+| report_to | string | required | Position will report to |
+| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
+| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
+| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
+| job_description | string | required | Short description of the job posting. |
+| job_requirements | string | required | The job posting requirements. |
+| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| company_name | string | required | The employer’s company name on Vietnamworks. |
+| company_size | string | required | Number of employee in employer company |
+| company_address | string | required | The employer company’s address |
+| company_profile | string | required | Employer company information. |
+| company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
+| is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
+| email_for_application | string | required | The email to recive job applications. |
+| preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
+| job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
 
-The response is a Job Posting object within a data envelope. Example response:
+The response won't be returning a body. Example response:
 
 ```
-HTTP/1.1 201 OK
+HTTP/1.1 204 No Content
 Content-Type: application/json; charset=utf-8
-{
- "data": {
-   "job_title": "Sales Executive - Japanese Business Unit",
-   "salary_range_id": 0,
-   "job_description": "Develop an extensive customer database, especially Japanese clients.",
-   "job_requirements": "Good written and spoken English is Essential.",
-   "company_name": "Vietnamworks",
-   "company_size_id": 4,
-   "company_profile": "VietnamWorks is Vietnam's #1 online service for professionals looking for jobs and employers looking for talent.",
-   "email_for_application": "son.tran@navigosgroup.com",
-   "contact_name": "Tran Thai Son",
-   "company_address": "130 Suong Nguyet Anh",
-   "created_date": "2015-12-09T14:32:56+07:00",
-   "duration_days": 30,
-   "expired_date": "2016-01-15T23:59:59+07:00",
-   "approved_date": "2015-12-16T17:06:46+07:00",
-   "last_updated_date": "2015-12-16T17:06:46+07:00",
-   "company_id": 201114,
-   "num_of_views": 0,
-   "preferred_language_id": 2,
-   "is_show_logo": 0,
-   "salary_max": 1000,
-   "salary_min": 700,
-   "job_level_id": 5,
-   "is_show_contact": true,
-   "unformatted_job_title": "Sales Executive - Japanese Business Unit",
-   "alias": "sales-executive-japanese-business-unit-19",
-   "unformatted_company_name": "Vietnamworks",
-   "id": 561451
- }
-}
 ```
-Where a Job Posting object is:
-
-| Field       | Type   | Description                                     |
-| ------------|--------|-------------------------------------------------|
-| id          | string | A unique identifier for the job posting.        |
-| job_title   | string | The job posting’s title on Vietnamworks.        |
-| job_description | string | Short description of the job posting.           |
-| job_requirements | string | The job posting requirements.           |
-| company_name | string | The employer’s company name on Vietnamworks. |
-| company_size_id | string | Number of employee in employer company. |
-| company_profile | string | Employer company information.           |
-| email_for_application | string | The email to recive job applications.           |
-| contact_name | string | The HR person’s name handle this job posting.|
-| company_address | string | The employer company’s address.           |
-| created_date | string | Created date of job posting.           |
-| duration_days | string | Dureation days to show job posting on job-seeker site.           |
-| expired_date | timestamp | Expired date of job posting.           |
-| approved_date | timestamp | Approved date of job posting.           |
-| last_updated_date | timestamp | Lastest update date of job posting.           |
-| company_id | string | A unique identifier for the company.           |
-| num_of_views | string | Number of views from job-seeker           |
-| preferred_language_id | string | The resume's language id that employer prefer when job-seeker apply.           |
-| salary_max | string | Salary range to |
-| salary_min | string | Salary range from |
-| job_level_id | string | The level id of job posting.           |
-| is_show_contact | string | Allow to show or not the HR person’s info handle this job posting.           |
-| unformatted_job_title | string | The job posting’s title provide by employer.           |
-| alias | string | A unique identifier is generated by job title for the job posting.           |
-| unformatted_company_name | string | The company name provide by employer.|
 
 Possible errors:
 
@@ -919,11 +771,14 @@ Possible errors:
 | ---------------------|----------------------------------------------------------------------------------------------------------------------|
 | 400 Bad Request      | Required fields were invalid, not specified.                                                                         |
 | 401 Unauthorized     | The access token is invalid or has been revoked.                                                                     |
-| 403 Forbidden        | The user does not have permission to publish, or the authorId in the request path points to wrong/non-existent user. |
+| 403 Forbidden        | The user does not have permission to publish. |
+| 404 Not Found        | The `jobId` is invalid or not yours job. |
 
 
 ## 4. Testing
 
-We do not have a sandbox environment yet. To test, please feel free to create a testing account.
+We have a sandbox environment for testing. All requests are made to endpoints beginning:
 
-These endpoints will perform actions on production data on `vietnamworks.com`. **Please test with care.**
+`https://api-staging.vietnamworks.com/api/rest/v1`
+
+Please feel free contact us to create a testing account.
