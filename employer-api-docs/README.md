@@ -766,7 +766,7 @@ Inactive a online job posting information on the authenticated user’s profile.
 A request looks like this:
 
 ```
-PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}/inactivate.json
+PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}/deactivate.json
 ```
 
 The response won't be returning a body. Example response:
