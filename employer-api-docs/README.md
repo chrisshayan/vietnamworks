@@ -10,9 +10,9 @@ This repository contains the documentation for [Vietnamworks](http://www.vietnam
 - [Resources](#3-resources)
   - [Job form structure](#31-job-form-structure)
   - [Job Listing & Job Details](#32-job-listing-and-job-details)
-  - [Post a Job](#33-post-a-job)
-  - [Edit a Job](#34-edit-a-job)
-  - [Activate/Deactivate a Job](#35-activatedeactivate-a-job)
+  - [Post a Job](#33-posts-a-job)
+  - [Edit a Job](#34-edits-a-job)
+  - [Activates/Deactivates a Job](#35-activatesdeactivates-a-job)
 - [Testing](#4-testing)
 
 ## 1. Overview
@@ -485,7 +485,7 @@ Possible errors:
 | 403 Forbidden        | Lacks the `jobview` scope or has been revoked. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.3. Post a Job
+### 3.3. Posts a Job
 
 #### Creates a job post
 
@@ -593,7 +593,7 @@ Possible errors:
 | 403 Forbidden        | The user does not have permission to publish. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.4. Edit a Job
+### 3.4. Edits a Job
 
 #### Fully updates an online job post
 
@@ -763,7 +763,7 @@ Possible errors:
 | 403 Forbidden        | The user does not have permission to publish. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.5. Active/Deactive a Job
+### 3.5. Activates/Deactivates a Job
 
 #### Actives a job
 Actives an online job posting information on behalf of the authenticated user.
