@@ -28,7 +28,7 @@ By using Vietnamworks’s API, you agree to our [terms of service](http://employ
 
 ## 2. Authentication
 
-In order to publish on behalf of a Vietnamworks Employer account, you will need an access token. An access token grants limited access to a user’s account. We offer to acquire an access token by browser-based OAuth authentication.
+In order to publish on behalf of a VietnamWorks Employer account, you will need an access token. An access token grants limited access to a user’s account. We offer to acquire an access token by browser-based OAuth authentication.
 
 
 ### 2.1. Browser-based authentication
@@ -66,7 +66,7 @@ The following scope values are valid:
 | Scope              | Description                                                             | Extended |
 | -------------------| ----------------------------------------------------------------------- | -------- |
 | jobview       | Grants basic access to view job posting information related to the employer. This includes the [Job Listing API](#listing-the-employers-jobs-posting) and the [Job Details API](#jobs-posting-detail)    | No       |
-| jobpost       | Currently grants the ability to manipulate all available APIs related job in Vietnamworks website    | No       |
+| jobpost       | Currently grants the ability to manipulate all available APIs related job in VietnamWorks website    | No       |
 
 Integrations are not permitted to request extended scope from users without explicit prior permission from Vietnamworks. Attempting to request these permissions through the standard user authentication flow will result in an error if extended scope has not been authorized for an integration.
 
@@ -194,7 +194,7 @@ The API is RESTful and arranged around resources. All requests must be made with
 
 **Scope:** `jobpost` only
 
-Returns details of the job posting form that employer has granted permission to publish job posting service to Vietnamworks website.
+Returns details of the job posting form that employer has granted permission to publish job posting service to VietnamWorks website.
 
 ```
 GET https://api.vietnamworks.com/api/rest/v1/jobs/new.json
@@ -266,7 +266,7 @@ Where a Job Form object is:
 | report_to| text | true |  | This job position will report to|
 | minimum_salary| text | true |  | Salary range from|
 | maximum_salary| text | true |  | Salary range to|
-| is_show_salary| radio  | true |  | Determines whether the salary should be shown on  Vietnamworks website or not|
+| is_show_salary| radio  | true |  | Determines whether the salary should be shown on  VietnamWorks website or not|
 | job_description | textarea  | true| 14500 | The  description of the job posting.|
 | job_requirements| textarea | true| 14500 | The job posting requirements. |
 | skill_tag1 | text  | false | 100 | First skill requirement for the job posting position. |
@@ -557,7 +557,7 @@ With the following fields:
 | report_to | string | optional | To who this position reports |
 | minimum_salary | integer | required | Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
 | maximum_salary | integer | required | Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
-| is_show_salary | integer | required | Determines whether the salary should be shown on  Vietnamworks website or not. The accepted value is [0,1] |
+| is_show_salary | integer | required | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
 | job_description | string | required | The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | job_requirements | string | required | The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | skill_tag1 | string | optional | First skill requirement of the job posting position. At least one skill tag is required. |
@@ -574,7 +574,7 @@ With the following fields:
 | is_show_contact | checkbox | required | Whether the `contact_name` is shown on job-seeker site or not.  |
 | email_for_application | string | required | The email to receive job applications. |
 | preferred_language | integer | required | The resume's language that employer prefers when job-seeker applies |
-| job_posting_service | integer | required | The job posting service id that employer purchased on Vietnamworks |
+| job_posting_service | integer | required | The job posting service id that employer purchased on VietnamWorks |
 
 The response is a location header that points to the URL of the newly created job. Example response:
 
@@ -664,7 +664,7 @@ With the following fields:
 | report_to | string | optional | To who this position reports |
 | minimum_salary | integer | required | Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
 | maximum_salary | integer | required | Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
-| is_show_salary | integer | required | Determines whether the salary should be shown on  Vietnamworks website or not. The accepted value is [0,1] |
+| is_show_salary | integer | required | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
 | job_description | string | required | The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | job_requirements | string | required | The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | skill_tag1 | string | optional | First skill requirement of the job posting position. At least one skill tag is required. |
@@ -729,7 +729,7 @@ With the following fields:
 | report_to | string |  To who this position reports |
 | minimum_salary | integer |  Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
 | maximum_salary | integer |  Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
-| is_show_salary | integer | Determines whether the salary should be shown on  Vietnamworks website or not. The accepted value is [0,1] |
+| is_show_salary | integer | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
 | job_description | string |  The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | job_requirements | string |  The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
 | skill_tag1 | string |  First skill requirement of the job posting position. At least one skill tag is required. |
