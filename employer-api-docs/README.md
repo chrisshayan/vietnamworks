@@ -9,16 +9,18 @@ This repository contains the documentation for [Vietnamworks](http://www.vietnam
   - [Browser-based authentication](#21-browser-based-authentication)
 - [Resources](#3-resources)
   - [Job form structure](#31-job-form-structure)
-  - [Job posting](#32-job-posting)
-  - [Job editing](#33-job-editing)
+  - [Job Listing & Job Details](#32-job-listing-and-job-details)
+  - [Post a Job](#33-posts-a-job)
+  - [Edit a Job](#34-edits-a-job)
+  - [Activates/Deactivates a Job](#35-activatesdeactivates-a-job)
 - [Testing](#4-testing)
 
 ## 1. Overview
 
-Vietnamworks’s API is a JSON-based OAuth2 API. All requests are made to endpoints beginning:
+Vietnamworks’s API is a JSON-based OAuth2 API. All requests are made to endpoints beginning with 
 `https://api.vietnamworks.com/api/rest/v1`
 
-All requests must be secure, i.e. `https`, not `http`.
+All requests must be sent via secure connection, i.e. `https`, not `http`.
 
 #### Developer agreement
 
@@ -26,15 +28,15 @@ By using Vietnamworks’s API, you agree to our [terms of service](http://employ
 
 ## 2. Authentication
 
-In order to publish on behalf of a Vietnamworks Employer account, you will need an access token. An access token grants limited access to a user’s account. We offer to acquire an access token by browser-based OAuth authentication.
+In order to publish on behalf of a VietnamWorks Employer account, you will need an access token. An access token grants limited access to a user’s account. We offer to acquire an access token by browser-based OAuth authentication.
 
 
 ### 2.1. Browser-based authentication
 
 To be able to use these APIs you will need a consumer key which you can apply for it by filling [Vietnamworks feedback form](http://www.vietnamworks.com/contact-us/feedback) and remember to choose API Consumer Key as your topic and mention your company name as well as requesting to access Employer API. 
-Then we will supply you a `clientId` and and a `clientSecret` with which you may access Vietnamworks’s API. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
+Then we will supply you a `clientId` and and a `clientSecret` which later on you may use to access Vietnamworks’s API. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
 
-The first step is to acquire a short term authorization code by sending the user to our authorization URL so they can grant access to your integration.
+The first step is to acquire a short term authorization code by sending the user to our authorization URL so they can grant access to your integration (do this via pure browser such as chrome, firefox and all the others).
 
 ```
 https://api.vietnamworks.com/oauth/v2/auth?client_id={{clientId}}
@@ -54,17 +56,17 @@ With the following parameters:
 | Parameter       | Type     | Required?  | Description                                     |
 | -------------   |----------|------------|-------------------------------------------------|
 | `client_id`     | string   | required   | The clientId we will supply you that identifies your integration. |
-| `scope`         | string   | required   | The access that your integration is requesting, comma separated. Currently, there are two valid scope values, which are listed below. Most integrations should request `jobview` `jobpost` |
+| `scope`         | string   | required   | The access that your integration is requesting, comma separated. Currently, there are two valid scope values, which are `jobview` and `jobpost`.|
 | `state`         | string   | required   | Arbitrary text of your choosing, which we will repeat back to you to help you prevent request forgery. |
-| `response_type` | string   | required   | The field currently has only one valid value, and should be `code`.  |
+| `response_type` | string   | required   | The field currently has only one valid value, which is `code`.  |
 | `redirect_uri`  | string   | required   | The URL where we will send the user after they have completed the login dialog. This must exactly match one of the callback URLs you provided when creating your app. This field should be URL encoded. |
 
 The following scope values are valid:
 
 | Scope              | Description                                                             | Extended |
 | -------------------| ----------------------------------------------------------------------- | -------- |
-| jobview       | Grants basic access to a approval job posting’s information related to the employer.    | No       |
-| jobpost       | Grants the ability to publish a job posting to Vietnamworks website    | No       |
+| jobview       | Grants basic access to view job posting information related to the employer. This includes the [Job Listing API](#listing-the-employers-jobs-posting) and the [Job Details API](#jobs-posting-detail)    | No       |
+| jobpost       | Currently grants the ability to manipulate all available APIs related job in VietnamWorks website    | No       |
 
 Integrations are not permitted to request extended scope from users without explicit prior permission from Vietnamworks. Attempting to request these permissions through the standard user authentication flow will result in an error if extended scope has not been authorized for an integration.
 
@@ -87,7 +89,7 @@ With the following parameters:
 
 | Parameter       | Type     | Required?  | Description                                     |
 | -------------   |----------|------------|-------------------------------------------------|
-| `state`         | string   | optional   | The state you specified in the request.         |
+| `state`         | string   | optional   | The arbitrary text you specified in the request.         |
 | `code`          | string   | required   | A short-lived authorization code that may be exchanged for an access token. |
 
 If the user declines access, we will send them back to the specified `redirect_uri` with an error parameter:
@@ -96,7 +98,7 @@ If the user declines access, we will send them back to the specified `redirect_u
 https://example.com/callback?error=access_denied
 ```
 
-Once you have an authorization code, you may exchange it for a long-lived access token with which you can make authenticated requests on behalf of the user. To acquire an access token, make a form-encoded server-side GET request:
+Once you have an short-lived authorization code, you may exchange it for a long-lived access token with which you can make authenticated requests on behalf of the user. To acquire an access token, make a form-encoded server-side GET request:
 
 ```
 GET /oauth/v2/token HTTP/1.1
@@ -120,16 +122,16 @@ With the following parameters:
 
 | Parameter       | Type     | Required?  | Description                                     |
 | -------------   |----------|------------|-------------------------------------------------|
-| `code`          | string   | required   | The authorization code you received in the previous step. |
+| `code`          | string   | required   | The short-lived authorization code you received in the previous step. |
 | `client_id`     | string   | required   | Your integration’s `clientId` |
 | `client_secret` | string   | required   | Your integration’s `clientSecret` |
-| `grant_type`    | string   | required   | The literal string "authorization_code" |
-| `redirect_uri`  | string   | required   | The same redirect_uri you specified when requesting an authorization code. |
+| `grant_type`    | string   | required   | Currently the only accepted value is `authorization_code` |
+| `redirect_uri`  | string   | required   | The same redirect_uri you specified when requesting for an authorization code. |
 
 If successful, you will receive back an access token response:
 
 ```
-HTTP/1.1 201 OK
+HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 {
     access_token: "MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRhNDljMA",
@@ -145,12 +147,12 @@ With the following parameters:
 | Parameter       | Type         | Required?  | Description                                     |
 | -------------   |--------------|------------|-------------------------------------------------|
 | `token_type`    | string       | required   | The literal string "Bearer"                     |
-| `access_token`  | string       | required   | A token that is valid for 30 days and may be used to perform authenticated requests on behalf of the user. |
+| `access_token`  | string       | required   | A token that is valid for  `expires_in` seconds (default 2592000 seconds = 30 days) and can be used to perform authenticated requests on behalf of the user. |
 | `refresh_token` | string       | required   | A token that does not expire which may be used to acquire a new `access_token`.                            |
 | `scope`         | string array | required   | The scopes granted to your integration.         |
-| `expires_in`    | int64        | required   | The timestamp in unix time when the access token will expire |
+| `expires_in`    | int64        | required   | The timestamp in unix time specified when the access token will expire (in second, default 2592000)|
 
-Each access token is valid for 30 days. When an access token expires, you may request a new token using the refresh token. Refresh tokens do not expire. Both access tokens and refresh tokens may be revoked by the user at any time. **You must treat both access tokens and refresh tokens like passwords and store them securely.**
+By defaul each access token is valid for 30 days. When an access token expires, you may request a new token using the refresh token. Refresh tokens do not expire. Both access tokens and refresh tokens may be revoked by the user at any time. **You must treat both access tokens and refresh tokens like passwords and store them securely.**
 
 Access token and refresh token like this:
 
@@ -161,7 +163,7 @@ MTFmMTY2MTI2ZGQ1NGRmZDljZGFiZGQ2YzVjNGIyMGI5NTY0NDQ0MDI3M2EyMjIyNWM5ZmZiM2FmMjRh
 To acquire a new access token using a refresh token, make the following form-encoded request:
 
 ```
-POST /oauth/v2/token HTTP/1.1
+GET /oauth/v2/token HTTP/1.1
 Host: api.vietnamworks.com
 Content-Type: application/x-www-form-urlencoded
 Accept: application/json
@@ -180,6 +182,7 @@ With the following parameters:
 | `client_secret` | string   | required   | Your integration’s `clientSecret`               |
 | `grant_type`    | string   | required   | The literal string "refresh_token"              |
 
+The response structure of this renew-token-request would be similar to the request-long-live-token request. **Notes that the new `refresh_token` will be issued, then the old one is not valid anymore.**
 
 ## 3. Resources
 
@@ -187,8 +190,11 @@ The API is RESTful and arranged around resources. All requests must be made with
 
 ### 3.1. Job Form Structure
 
-#### Getting the job form’s details
-Returns details of the job posting form that employer has granted permission to publish job posting service to Vietnamworks website.
+#### Gets the job form’s details
+
+**Scope:** `jobpost` only
+
+Returns details of the job posting form that employer has granted permission to publish job posting service to VietnamWorks website.
 
 ```
 GET https://api.vietnamworks.com/api/rest/v1/jobs/new.json
@@ -205,7 +211,7 @@ Accept: application/json
 Accept-Charset: utf-8
 ```
 
-The response is a Job Form object within a Job Posting Purchase Order data.
+The response is a Job Form object within a Job Posting Purchase Order data. You will use this data later for posting and editing job.
 
 Example response:
 
@@ -252,32 +258,32 @@ Where a Job Form object is:
 
 | Field      | Type   | Required   | Max Length |Description                               |
 | -----------|--------|--------|--------|----------------------------------------------|
-| job_title  | text | true | 100 | The title of job posting.|
-| job_level  | choice | true |  | The level of job posting.                  |
-| job_categories| choice | true |  | Industries of job posting. Choose maximum 3 industries|
+| job_title  | text | true | 100 | The title of the job posting.|
+| job_level  | choice | true |  | The level of the job posting.                  |
+| job_categories| choice | true |  | Industries of the job posting. Choose maximum 3 industries|
 | job_category_orders  | text | true  |  | The list of industries separated by commas in order of display|
-| job_locations| choice | true |  | Locations of job posting. Choose maximum 3 cities|
+| job_locations| choice | true |  | Locations of the job posting. Choose maximum 3 cities|
 | report_to| text | true |  | This job position will report to|
 | minimum_salary| text | true |  | Salary range from|
 | maximum_salary| text | true |  | Salary range to|
-| is_show_salary| radio  | true |  | Allow to show or not salary range on Vietnamworks website|
-| job_description | textarea  | true| 14500 | The short description job posting. |
+| is_show_salary| radio  | true |  | Determines whether the salary should be shown on  VietnamWorks website or not|
+| job_description | textarea  | true| 14500 | The  description of the job posting.|
 | job_requirements| textarea | true| 14500 | The job posting requirements. |
-| skill_tag1 | text  | false | 100 | Skill requirement for job posting position. |
-| skill_tag2 | text  | false | 100 | Skill requirement for job posting position. |
-| skill_tag3 | text  | false | 100 | Skill requirement for job posting position. |
+| skill_tag1 | text  | false | 100 | First skill requirement for the job posting position. |
+| skill_tag2 | text  | false | 100 | Second skill requirement for the job posting position. |
+| skill_tag3 | text  | false | 100 | Third skill requirement for the job posting position. |
 | company_name| text | true| 255 | The employer’s company name on Vietnamworks. |
-| company_size | choice | true|  | Number of employee in employer company   |
+| company_size | choice | true|  | Number of employees in employer company   |
 | company_address | text | true|  | The employer company’s address. |
 | company_profile | textarea | true| 10000 | Employer company information|
-| company_benefit1 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| company_benefit2 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| company_benefit3 | benefit  | false |  | benefit_id choice, benefit_description text to show what is benefit comapany provide|
-| contact_name | text | true| 30 | The HR person’s name handle this job posting|
-| is_show_contact | checkbox | false |  | Allow to show or not the HR person’s info handle this job posting|
-| email_for_application | text | true| 255 | The email to recive job applications|
-| preferred_language  | choice | true|  | The resume's language that employer prefer when job-seeker apply|
-| job_posting_service  | choice  | true|  | The job posting service that employer purchase on Vietnamworks|
+| company_benefit1 | benefit  | false |  | benefit_id choice, benefit_description text to show what benefit the comapany provides|
+| company_benefit2 | benefit  | false |  | benefit_id choice, benefit_description text to show what benefit the comapany provides|
+| company_benefit3 | benefit  | false |  | benefit_id choice, benefit_description text to show what benefit the comapany provides|
+| contact_name | text | true| 30 | The HR person who handles this job posting|
+| is_show_contact | checkbox | false |  | Whether the `contact_name` is shown on job-seeker site or not.|
+| email_for_application | text | true| 255 | The email to receive job applications|
+| preferred_language  | choice | true|  | The resume's language that employer prefers when job-seeker applies|
+| job_posting_service  | choice  | true|  | The job posting service that employer purchased on Vietnamworks|
 
 Possible errors:
 
@@ -286,19 +292,20 @@ Possible errors:
 | 400 Bad request      | There is no available job posting service.      |
 | 401 Unauthorized     | The `accessToken` is invalid or has been revoked. |
 
-### 3.2. Job Posting
+### 3.2. Job Listing and Job Details
 
-#### Listing the employer’s jobs posting
+#### Lists the employer’s online job posts
 
-Returns a full list of approved job posting that the employer. This endpoint offers a set of data similar to what you will see at http://employer.vietnamworks.com/beta/job/default/index when logged in.
+**Scope:** Both `jobpost` and `jobview`
 
-The REST API endpoint exposes this list of approved job posting as a collection of resources under the employer. A request to fetch a list of approved job posting for a employer looks like this:
+
+This REST API endpoint exposes the list of approved job posting as a collection of resources under the employer. A request to fetch a list of approved job posting for a employer looks like this:
 
 ```
 GET https://api.vietnamworks.com/api/rest/v1/jobs/online.json
 ```
 
-The response is a list of approved job posting objects. An empty array is returned if employer doesn’t have relations to any approved job posting. The response array is wrapped in a data envelope.
+The response is a list of approved job posting objects (this endpoint offers a set of data similar to what you will see at http://employer.vietnamworks.com/beta/job/default/index when logged in). An empty array is returned if employer doesn’t have relations to any approved job posting. The response array is wrapped in a data envelope.
 
 Example response:
 
@@ -343,36 +350,36 @@ Where a Job Posting object is:
 
 | Field       | Type   | Description                                     |
 | ------------|--------|-------------------------------------------------|
-| id          | string | A unique identifier for the job posting.        |
-| job_title   | string | The job posting’s title on Vietnamworks.        |
+| id          | string | The unique identifier for the job posting.        |
+| job_title   | string | The job title on VietnamWorks.        |
 | job_description | string | Short description of the job posting.           |
-| job_requirements | string | The job posting requirements.           |
-| company_name | string | The employer’s company name on Vietnamworks. |
-| company_size_id | number | Number of employee in employer company. |
+| job_requirements | string | The requirements of the job posting.           |
+| company_name | string | The company name to show on Vietnamworks. |
+| company_size_id | number | Number of employees in employer company. |
 | company_profile | string | Employer company information.           |
-| email_for_application | string | The email to recive job applications.           |
-| contact_name | string | The HR person’s name handle this job posting.|
+| email_for_application | string | The email to receive job applications.           |
+| contact_name | string | The HR person who handles this job posting.|
 | company_address | string | The employer company’s address.           |
-| created_date | timestamp | Created date of job posting.           |
-| duration_days | number | Dureation days to show job posting on job-seeker site.           |
-| expired_date | timestamp | Expired date of job posting.           |
-| approved_date | timestamp | Approved date of job posting.           |
-| last_updated_date | timestamp | Lastest update date of job posting.           |
-| company_id | string | A unique identifier for the company.           |
-| num_of_views | number | Number of views from job-seeker           |
-| preferred_language_id | string | The resume's language id that employer prefer when job-seeker apply.           |
-| salary_max | number | Salary range to |
-| salary_min | number | Salary range from |
-| job_level_id | number | The level id of job posting.           |
-| is_show_contact | boolean | Allow to show or not the HR person’s info handle this job posting.           |
-| unformatted_job_title | string | The job posting’s title provide by employer.           |
-| alias | string | A unique identifier is generated by job title for the job posting.           |
-| unformatted_company_name | string | The company name provide by employer.|
-| num_of_applications | number | Number of applicatios from job-seeker           |
-| job_locations | array | Array of locations of job posting |
-| job_categories | array | Array of industries of job posting |
-| company_benefits | array | Array of benefits of company |
-| skill_tags | array | Array of skill tags of job posting |
+| created_date | timestamp | Created date of the job posting.           |
+| duration_days | number | The number of days that the job posting is shown on job-seeker site.           |
+| expired_date | timestamp | Expired date of the job posting.           |
+| approved_date | timestamp | Approved date of the job posting. Aka start date when the job is online.           |
+| last_updated_date | timestamp | Lastest update date of the job posting.           |
+| company_id | string | The unique identifier of the company.           |
+| num_of_views | number | Number of views.          |
+| preferred_language_id | string | The resume's language id which employer prefers when job-seeker applies.           |
+| salary_max | number | Max salary |
+| salary_min | number | Min salary |
+| job_level_id | number | The level id of the job posting.           |
+| is_show_contact | boolean | Whether the `contact_name` is shown on job-seeker site or not.           |
+| unformatted_job_title | string | The job title provided by employer.           |
+| alias | string | The unique alias which is generated based on the job title of the job posting.           |
+| unformatted_company_name | string | The company name provided by employer.|
+| num_of_applications | number | Number of applications.           |
+| job_locations | array | Array of locations of the job posting |
+| job_categories | array | Array of industries of the job posting |
+| company_benefits | array | Array of benefits of the company |
+| skill_tags | array | Array of skill tags of the job posting |
 
 Possible errors:
 
@@ -381,9 +388,11 @@ Possible errors:
 | 401 Unauthorized     | The `accessToken` is invalid, lacks the `listJobPosting` scope or has been revoked. |
 | 401 Forbidden        | The request attempts to list publications for another user.                           |
 
-#### Jobs posting detail
+#### Jobs posting details
 
-Returns a full of approved job posting that the employer. This endpoint offers a set of data similar to what you’ll see at http://employer.vietnamworks.com/beta/job-posting/edit-job/{jobId} when logged in.
+**Scope:** Both `jobpost` and `jobview`
+
+Returns the details of a single approved job posting of the authenticated employer. This endpoint offers a set of data similar to what you’ll see at http://employer.vietnamworks.com/beta/job-posting/edit-job/{jobId} when logged in.
 
 The REST API endpoint exposes this approved job posting as a resources under the employer. A request to fetch a approved job posting for a employer looks like this:
 
@@ -391,7 +400,7 @@ The REST API endpoint exposes this approved job posting as a resources under the
 GET https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}.json
 ```
 
-The response is a approved job posting objects. An empty array is returned if employer doesn’t have relations to any approved job posting. The response array is wrapped in a data envelope.
+The response is a full details of the approved job posting objects. 
 
 Example response:
 
@@ -437,36 +446,36 @@ Where a Job Posting object is:
 
 | Field       | Type   | Description                                     |
 | ------------|--------|-------------------------------------------------|
-| id          | string | A unique identifier for the job posting.        |
-| job_title   | string | The job posting’s title on Vietnamworks.        |
-| job_description | string | Short description of the job posting.           |
-| job_requirements | string | The job posting requirements.           |
+| id          | string | The unique identifier of the job posting.        |
+| job_title   | string | The job title on Vietnamworks.        |
+| job_description | string | The description of the job posting.           |
+| job_requirements | string | The job requirements.           |
 | company_name | string | The employer’s company name on Vietnamworks. |
-| company_size_id | string | Number of employee in employer company. |
+| company_size_id | string | Number of employees in employer company. |
 | company_profile | string | Employer company information.           |
-| email_for_application | string | The email to recive job applications.           |
-| contact_name | string | The HR person’s name handle this job posting.|
+| email_for_application | string | The email to receive job applications.           |
+| contact_name | string | The HR person who handles the job posting.|
 | company_address | string | The employer company’s address.           |
-| created_date | string | Created date of job posting.           |
-| duration_days | string | Dureation days to show job posting on job-seeker site.           |
-| expired_date | timestamp | Expired date of job posting.           |
-| approved_date | timestamp | Approved date of job posting.           |
-| last_updated_date | timestamp | Lastest update date of job posting.           |
-| company_id | string | A unique identifier for the company.           |
-| num_of_views | string | Number of views from job-seeker           |
-| preferred_language_id | string | The resume's language id that employer prefer when job-seeker apply.           |
-| salary_max | string | Salary range to |
-| salary_min | string | Salary range from |
-| job_level_id | string | The level id of job posting.           |
-| is_show_contact | string | Allow to show or not the HR person’s info handle this job posting.           |
+| created_date | string | Created date of the job posting.           |
+| duration_days | string | The number of days that the job posting is shown on job-seeker site.           |
+| expired_date | timestamp | Expired date of the job posting.           |
+| approved_date | timestamp | Approved date of the job posting. Aka start date when the job is online.           |
+| last_updated_date | timestamp | Lastest update date of the job posting.           |
+| company_id | string | The unique identifier of the company.           |
+| num_of_views | string | Number of views           |
+| preferred_language_id | string | The resume's language id that employer prefers when job-seeker applies.           |
+| salary_max | string | Max Salary |
+| salary_min | string | Min Salary |
+| job_level_id | string | The level id of the job posting.           |
+| is_show_contact | string | Whether the `contact_name` is shown on job-seeker site or not.           |
 | unformatted_job_title | string | The job posting’s title provide by employer.           |
-| alias | string | A unique identifier is generated by job title for the job posting.           |
-| unformatted_company_name | string | The company name provide by employer.|
-| num_of_applications | number | Number of applicatios from job-seeker           |
-| job_locations | array | Array of locations of job posting |
-| job_categories | array | Array of industries of job posting |
-| company_benefits | array | Array of benefits of company |
-| skill_tags | array | Array of skill tags of job posting |
+| alias | string | The unique alias which is generated based on the job title of the job posting.         |
+| unformatted_company_name | string | The company name provided by employer.|
+| num_of_applications | number | Number of applications         |
+| job_locations | array | Array of locations of the job posting |
+| job_categories | array | Array of industries of the job posting |
+| company_benefits | array | Array of benefits of the company |
+| skill_tags | array | Array of skill tags of the job posting |
 
 Possible errors:
 
@@ -476,10 +485,13 @@ Possible errors:
 | 403 Forbidden        | Lacks the `jobview` scope or has been revoked. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.3. Posts
+### 3.3. Posts a Job
 
-#### Creating a job posting
-Creates a job posting on the authenticated user’s profile.
+#### Creates a job post
+
+**Scope:** `jobpost` only
+
+Creates a job posting on behalf of the authenticated user.
 
 ```
 POST https://api.vietnamworks.com/api/rest/v1/jobs.json 
@@ -539,31 +551,32 @@ With the following fields:
 | -------------   |--------------|------------|-------------------------------------------------|
 | job_title           | string       | required   | The title of the job posting.|
 | job_level   | integer       | required   | The job level of the job posting |
-| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
+| job_categories | integer array | required   | The industries of the job posting. At least one industry is required and maximum of 3.  |
 | job_category_orders  | integer array | required  | The order of `job_categories` list |
-| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
-| report_to | string | required | Position will report to |
-| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
-| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
-| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | required | Short description of the job posting. |
-| job_requirements | string | required | The job posting requirements. |
-| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| job_locations | integer array | required   | Working cities of the job. At least one city is required and maximum of 3.  |
+| report_to | string | optional | To who this position reports |
+| minimum_salary | integer | required | Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
+| maximum_salary | integer | required | Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
+| is_show_salary | integer | required | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
+| job_description | string | required | The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| job_requirements | string | required | The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| skill_tag1 | string | optional | First skill requirement of the job posting position. At least one skill tag is required. |
+| skill_tag2 | string | optional | Second skill requirement of the job posting position.  At least one skill tag is required. |
+| skill_tag3 | string | optional | Third skill requirement of the job posting position.  At least one skill tag is required. |
 | company_name | string | required | The employer’s company name on Vietnamworks. |
-| company_size | string | required | Number of employee in employer company |
-| company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information. |
-| company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications. |
-| preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
-| job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
+| company_size | integer | optional | Number of employees in employer company |
+| company_address | string | optional | The employer company’s address |
+| company_profile | string | required | The employer company information. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| company_benefit1 | benefit | optional | The first `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit2 | benefit | optional | The second `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit3 | benefit | optional | The third `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| contact_name | string | required | The HR person who handles the job posting.|
+| is_show_contact | checkbox | required | Whether the `contact_name` is shown on job-seeker site or not.  |
+| email_for_application | string | required | The email to receive job applications. |
+| preferred_language | integer | required | The resume's language that employer prefers when job-seeker applies |
+| job_posting_service | integer | required | The job posting service id that employer purchased on VietnamWorks |
 
-The response is a location header that points to the URL of the new created job. Example response:
+The response is a location header that points to the URL of the newly created job. Example response:
 
 ```
 HTTP/1.1 201 Created
@@ -575,15 +588,18 @@ Possible errors:
 
 | Error code           | Description                                                                                                          |
 | ---------------------|----------------------------------------------------------------------------------------------------------------------|
-| 400 Bad Request      | Required fields were invalid, not specified. Or there is no available job posting service..                                                                          |
+| 400 Bad Request      | Required fields were invalid, or not specified. Or there is no available job posting service.                                                                          |
 | 401 Unauthorized     | The access token is invalid or has been revoked.                                                                     |
 | 403 Forbidden        | The user does not have permission to publish. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.4. Edit
+### 3.4. Edits a Job
 
-#### Update online job posting information
-Update a online job posting information on the authenticated user’s profile.
+#### Fully updates an online job post
+
+**Scope:** `jobpost` only
+
+Fully updates an online job posting information on behalf of the authenticated user.
 
 ```
 PUT https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}.json 
@@ -642,29 +658,30 @@ With the following fields:
 | -------------   |--------------|------------|-------------------------------------------------|
 | job_title           | string       | required   | The title of the job posting.|
 | job_level   | integer       | required   | The job level of the job posting |
-| job_categories | integer array | required   | industries of the job posting. At least one industry and maximum is 3 industries.  |
+| job_categories | integer array | required   | The industries of the job posting. At least one industry is required and maximum of 3.  |
 | job_category_orders  | integer array | required  | The order of `job_categories` list |
-| job_locations | integer array | required   | working cities of the job posting. At least one city and maximum is 3 cities.  |
-| report_to | string | required | Position will report to |
-| minimum_salary | integer | required | Salary range from, which is greater than 1 and lower than `maximum_salary` |
-| maximum_salary | integer | required | Salary range to, which is greater than 1 and greater than `maximum_salary` |
-| is_show_salary | integer | required | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | required | Short description of the job posting. |
-| job_requirements | string | required | The job posting requirements. |
-| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
+| job_locations | integer array | required   | Working cities of the job. At least one city is required and maximum of 3.  |
+| report_to | string | optional | To who this position reports |
+| minimum_salary | integer | required | Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
+| maximum_salary | integer | required | Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
+| is_show_salary | integer | required | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
+| job_description | string | required | The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| job_requirements | string | required | The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| skill_tag1 | string | optional | First skill requirement of the job posting position. At least one skill tag is required. |
+| skill_tag2 | string | optional | Second skill requirement of the job posting position.  At least one skill tag is required. |
+| skill_tag3 | string | optional | Third skill requirement of the job posting position.  At least one skill tag is required. |
 | company_name | string | required | The employer’s company name on Vietnamworks. |
-| company_size | string | required | Number of employee in employer company |
-| company_address | string | required | The employer company’s address |
-| company_profile | string | required | Employer company information. |
-| company_benefit1 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit2 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit3 | benefit | required | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| is_show_contact | string | required | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | required | The email to recive job applications. |
-| preferred_language | string | required | The resume's language that employer prefer when job-seeker apply |
-| job_posting_service | string | required | The job posting service id that employer purchase on Vietnamworks |
+| company_size | integer | optional | Number of employees in employer company |
+| company_address | string | optional | The employer company’s address |
+| company_profile | string | required | The employer company information. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| company_benefit1 | benefit | optional | The first `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit2 | benefit | optional | The second `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit3 | benefit | optional | The third `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| contact_name | string | required | The HR person who handles the job posting.|
+| is_show_contact | checkbox | required | Whether the `contact_name` is shown on job-seeker site or not.  |
+| email_for_application | string | required | The email to receive job applications. |
+| preferred_language | integer | required | The resume's language that employer prefers when job-seeker applies |
+
 
 The response won't be returning a body. Example response:
 
@@ -673,8 +690,12 @@ HTTP/1.1 204 No Content
 Content-Type: application/json; charset=utf-8
 ```
 
-#### Update partial online job posting information
-Update a online job posting information on the authenticated user’s profile.
+
+#### Partially updates an online job post
+
+**Scope:** `jobpost` only
+
+Updates one field or more of an online job post on the authenticated user.
 
 ```
 PATCH https://api.vietnamworks.com/api/rest/v1/jobs/{jobId}.json 
@@ -698,33 +719,33 @@ Accept-Charset: utf-8
 
 With the following fields:
 
-| Parameter       | Type         | Required?  | Description                                     |
-| -------------   |--------------|------------|-------------------------------------------------|
-| job_title           | string       | optional   | The title of the job posting.|
-| job_level   | integer       | optional   | The job level of the job posting |
-| job_categories | integer array | optional   | industries of the job posting. At least one industry and maximum is 3 industries.  |
-| job_category_orders  | integer array | optional  | The order of `job_categories` list. The order depend on existed industries in `job_categories` |
-| job_locations | integer array | optional   | working cities of the job posting. At least one city and maximum is 3 cities.  |
-| report_to | string | optional | Position will report to |
-| minimum_salary | integer | optional | Salary range from, which is greater than 1 and lower than `maximum_salary` |
-| maximum_salary | integer | optional | Salary range to, which is greater than 1 and greater than `maximum_salary` |
-| is_show_salary | integer | optional | Allow to show or not salary range on Vietnamworks website. The collection is [0,1] |
-| job_description | string | optional | Short description of the job posting. |
-| job_requirements | string | optional | The job posting requirements. |
-| skill_tag1 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag2 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| skill_tag3 | string | optional | Skill requirement for job posting position. Enter at least one skill tag on 3 parameter `skill_tag1` `skill_tag2` `skill_tag3`. |
-| company_name | string | optional | The employer’s company name on Vietnamworks. |
-| company_size | string | optional | Number of employee in employer company |
-| company_address | string | optional | The employer company’s address |
-| company_profile | string | optional | Employer company information. |
-| company_benefit1 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit2 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| company_benefit3 | benefit | optional | benefit_id choice, benefit_description text to show what is benefit comapany provide |
-| is_show_contact | string | optional | Allow to show or not the HR person’s info handle this job posting |
-| email_for_application | string | optional | The email to recive job applications. |
-| preferred_language | string | optional | The resume's language that employer prefer when job-seeker apply |
-| job_posting_service | string | optional | The job posting service id that employer purchase on Vietnamworks |
+| Parameter       | Type         |  Description                                     |
+| -------------   |--------------|-------------------------------------------------|
+| job_title           | string       |  The title of the job posting.|
+| job_level   | integer       | The job level of the job posting |
+| job_categories | integer array |  The industries of the job posting. At least one industry is required and maximum of 3.  |
+| job_category_orders  | integer array |  The order of `job_categories` list |
+| job_locations | integer array | Working cities of the job. At least one city is required and maximum of 3.  |
+| report_to | string |  To who this position reports |
+| minimum_salary | integer |  Salary range from in USD, which is greater than 1 and less than or equal to than `maximum_salary` |
+| maximum_salary | integer |  Salary range to in USD, which is greater than 1 and greater than or equal to `maximum_salary` |
+| is_show_salary | integer | Determines whether the salary should be shown on  VietnamWorks website or not. The accepted value is [0,1] |
+| job_description | string |  The description of the job posting. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| job_requirements | string |  The job posting requirements. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| skill_tag1 | string |  First skill requirement of the job posting position. At least one skill tag is required. |
+| skill_tag2 | string | Second skill requirement of the job posting position.  At least one skill tag is required. |
+| skill_tag3 | string |  Third skill requirement of the job posting position.  At least one skill tag is required. |
+| company_name | string |  The employer’s company name on Vietnamworks. |
+| company_size | integer | Number of employees in employer company |
+| company_address | string |  The employer company’s address |
+| company_profile | string |  The employer company information. Plain text only (HTML tags will be shown as normal < and >). To insert a newline please use \n|
+| company_benefit1 | benefit |  The first `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit2 | benefit |  The second `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| company_benefit3 | benefit |  The third `benefit` object (benefit_id and benefit_description). At lease one benefit is required. |
+| contact_name | string | The HR person who handles the job posting.|
+| is_show_contact | checkbox | Whether the `contact_name` is shown on job-seeker site or not.  |
+| email_for_application | string | The email to receive job applications. |
+| preferred_language | integer | The resume's language that employer prefers when job-seeker applies |
 
 The response won't be returning a body. Example response:
 
@@ -737,15 +758,15 @@ Possible errors:
 
 | Error code           | Description                                                                                                          |
 | ---------------------|----------------------------------------------------------------------------------------------------------------------|
-| 400 Bad Request      | Required fields were invalid, not specified.                                                                         |
-| 401 Unauthorized     | The access token is invalid or has been revoked.                                                                     |
+| 400 Bad Request      | Required fields were invalid, or not specified.                                                                         |
+| 401 Unauthorized     | The access token is invalid, or has been revoked.                                                                     |
 | 403 Forbidden        | The user does not have permission to publish. |
 | 404 Not Found        | The `jobId` is invalid or not yours job. |
 
-### 3.5. Active/ Inactive Job Posting
+### 3.5. Activates/Deactivates a Job
 
-#### Active job posting
-Active a online job posting information on the authenticated user’s profile.
+#### Actives a job
+Actives an online job posting information on behalf of the authenticated user.
 
 A request looks like this:
 
@@ -760,8 +781,8 @@ HTTP/1.1 204 No Content
 Content-Type: application/json; charset=utf-8
 ```
 
-#### Inactive job posting
-Inactive a online job posting information on the authenticated user’s profile.
+#### Deactives job posting
+Deactives an online job posting information on behalf of the authenticated user.
 
 A request looks like this:
 
@@ -789,6 +810,6 @@ Possible errors:
 
 We have a sandbox environment for testing. All requests are made to endpoints beginning:
 
-`https://api-staging.vietnamworks.com/api/rest/v1`
+`https://api-staging.vietnamworks.com/`
 
-Please feel free contact us to create a testing account.
+Please feel free to contact us for a testing account.
