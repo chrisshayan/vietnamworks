@@ -33,10 +33,18 @@ In order to publish on behalf of a VietnamWorks Employer account, you will need 
 
 ### 2.1. Browser-based authentication
 
-To be able to use these APIs you will need a consumer key which you can apply for it by filling [Vietnamworks feedback form](http://www.vietnamworks.com/contact-us/feedback) and remember to choose API Consumer Key as your topic and mention your company name as well as requesting to access Employer API. 
-Then we will supply you a `clientId` and and a `clientSecret` which later on you may use to access Vietnamworks’s API. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
+To be able to use these APIs you will need a consumer key which you can apply for it by filling <a href="http://www.vietnamworks.com/contact-us/feedback" target="_blank">VietnamWorks feedback form</a> with the details below:
 
-The first step is to acquire a short term authorization code by sending the user to our authorization URL so they can grant access to your integration (do this via pure browser such as chrome, firefox and all the others).
+- Topic: API Consumer Key
+- Description contains these information:
+ - Company Name: {Your Company Name}
+ - Staging's redirect\_uri: {`redirect_uri` for your staging}
+ - Production's redirect\_uri: {`redirect_uri` for your production}
+ - Your employer's username(s) on staging (so that we will give this employer(s) some free services for testing)
+
+Then we will email you a pair of `clientId` and `clientSecret` **on our staging environment** which later on you may use to access Vietnamworks’s API. Once the integration on staging is done we will issue another pair for production environment. Each integration should have its own `clientId` and `clientSecret`. The `clientSecret` should be treated like a password and stored securely.
+
+After obtaining `clientId` and `clientSecret`, the first step is to acquire a short term authorization code by sending the user to our authorization URL so they can grant access to your integration (do this via pure browser such as chrome, firefox and all the others).
 
 ```
 https://api.vietnamworks.com/oauth/v2/auth?client_id={{clientId}}
